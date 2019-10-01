@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Domain
+namespace DomainServices
 {
     public class Class1
     {
