@@ -16,9 +16,11 @@ namespace Infrastructure.Orders
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Domain.Client>().HasIndex(c => c.Email);
         }
 
-        DbSet<IActor> Actors { get; set; }
-        DbSet<Order> Orders { get; set; }
+        DbSet<Client> Clients { get; set; }
+        DbSet<Meal> MealsChosen { get; set; }
+        DbSet<Menu> MenusChosen { get; set; }
     }
 }
