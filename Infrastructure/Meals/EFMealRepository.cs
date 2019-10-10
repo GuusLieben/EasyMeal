@@ -5,9 +5,9 @@ using System.Linq;
 using Domain;
 using Domain.Services;
 
-namespace Infrastructure.Service
+namespace Infrastructure.Meals
 {
-    class EFMealRepository : IMealRepository
+    public class EFMealRepository : IMealRepository
     {
 
         private readonly MealDbContext context;

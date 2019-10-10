@@ -3,7 +3,10 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29215.179
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApi", "EasyMeal\WebApi.csproj", "{468DED82-E279-46E5-807F-B7C82EA67E1E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MealAPI", "EasyMeal\MealAPI.csproj", "{468DED82-E279-46E5-807F-B7C82EA67E1E}"
+	ProjectSection(ProjectDependencies) = postProject
+		{9146F61B-18CC-450C-84F4-98D3AF49FECB} = {9146F61B-18CC-450C-84F4-98D3AF49FECB}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain Models", "Domain\Domain Models.csproj", "{07CEA4A3-E135-4F42-A0D3-BF8C5DD1B7CF}"
 EndProject
@@ -11,9 +14,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "Infrastru
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests", "Tests\Tests.csproj", "{B708BD05-4776-461F-A92D-6DED3C7212E5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebService.Cook", "WebService.Cook\WebService.Cook.csproj", "{12816E34-F7B5-44BC-9520-65A222A1205F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MealService", "WebService.Cook\MealService.csproj", "{12816E34-F7B5-44BC-9520-65A222A1205F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebService.Order", "WebService.Order\WebService.Order.csproj", "{CE03101B-0976-4A33-B61D-DBF8D48017C2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrderService", "WebService.Order\OrderService.csproj", "{CE03101B-0976-4A33-B61D-DBF8D48017C2}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain Services", "Domain Services\Domain Services.csproj", "{9146F61B-18CC-450C-84F4-98D3AF49FECB}"
 EndProject

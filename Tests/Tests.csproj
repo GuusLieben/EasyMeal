@@ -15,10 +15,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Domain\Domain Models.csproj" />
-    <ProjectReference Include="..\EasyMeal\WebApi.csproj" />
+    <ProjectReference Include="..\EasyMeal\MealAPI.csproj" />
     <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
-    <ProjectReference Include="..\WebService.Cook\WebService.Cook.csproj" />
-    <ProjectReference Include="..\WebService.Order\WebService.Order.csproj" />
+    <ProjectReference Include="..\WebService.Cook\MealService.csproj" />
+    <ProjectReference Include="..\WebService.Order\OrderService.csproj" />
   </ItemGroup>
 
 </Project>
