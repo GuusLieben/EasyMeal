@@ -26,10 +26,10 @@ namespace WebService.Cook
 
         public void ConfigureServices(IServiceCollection services)
         {
-            IConfigurationRoot configuration = new ConfigurationBuilder()
-            .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
-            .AddJsonFile("appsettings.json")
-            .Build();
+            //IConfigurationRoot configuration = new ConfigurationBuilder()
+            //.SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
+            //.AddJsonFile("appsettings.json")
+            //.Build();
 
             services.Configure<CookiePolicyOptions>(options =>
             {
@@ -40,7 +40,7 @@ namespace WebService.Cook
 
             services.AddDbContext<MealDbContext>(options =>
             {
-                options.UseSqlServer(configuration.GetConnectionString("MealDbConnection"));
+                options.UseSqlServer(Configuration.GetConnectionString("MealDbConnection"));
             });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);

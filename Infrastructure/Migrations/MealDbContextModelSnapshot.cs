@@ -47,9 +47,18 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Email");
-
                     b.ToTable("Cooks");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 5,
+                            Email = "h.d@gmail.com",
+                            Firstname = "Henk",
+                            Lastname = "Dekker",
+                            Password = "1234",
+                            Phonenumber = "0612345678"
+                        });
                 });
 
             modelBuilder.Entity("Domain.DietRestrictions", b =>
@@ -82,6 +91,9 @@ namespace Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnName("Description");
 
+                    b.Property<int?>("DishId")
+                        .HasColumnName("DishId1");
+
                     b.Property<int>("DishSize")
                         .HasColumnName("DishSize");
 
@@ -101,7 +113,7 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Name");
+                    b.HasIndex("DishId");
 
                     b.ToTable("Dishes");
                 });
@@ -112,27 +124,14 @@ namespace Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("DateValid");
-
-                    b.Property<int>("DessertId");
-
-                    b.Property<int>("MainId");
+                    b.Property<DateTime>("DateValid")
+                        .HasColumnName("DateValid");
 
                     b.Property<int?>("MenuId");
 
-                    b.Property<int>("StarterId");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("DateValid");
-
-                    b.HasIndex("DessertId");
-
-                    b.HasIndex("MainId");
-
                     b.HasIndex("MenuId");
-
-                    b.HasIndex("StarterId");
 
                     b.ToTable("MealOptionals");
                 });
@@ -158,26 +157,19 @@ namespace Infrastructure.Migrations
                         .HasForeignKey("DishId");
                 });
 
+            modelBuilder.Entity("Domain.Dish", b =>
+                {
+                    b.HasOne("Domain.Meal")
+                        .WithMany("Dishes")
+                        .HasForeignKey("DishId")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
             modelBuilder.Entity("Domain.Meal", b =>
                 {
-                    b.HasOne("Domain.Dish", "Dessert")
-                        .WithMany()
-                        .HasForeignKey("DessertId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("Domain.Dish", "Main")
-                        .WithMany()
-                        .HasForeignKey("MainId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
                     b.HasOne("Domain.Menu")
                         .WithMany("Meals")
                         .HasForeignKey("MenuId");
-
-                    b.HasOne("Domain.Dish", "Starter")
-                        .WithMany()
-                        .HasForeignKey("StarterId")
-                        .OnDelete(DeleteBehavior.Restrict);
                 });
 #pragma warning restore 612, 618
         }

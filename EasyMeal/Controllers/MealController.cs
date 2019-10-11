@@ -10,8 +10,10 @@ namespace EasyMeal.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ValuesController : ControllerBase
+    public class MealController : ControllerBase
     {
+
+        //private MealDbContext _db = new MealDbContext();
 
         // GET api/values
         [HttpGet]
@@ -24,7 +26,8 @@ namespace EasyMeal.Controllers
         [HttpGet("{id}")]
         public ActionResult<string> Get(int id)
         {
-            return Ok();
+            Cook cook = null;//_db.Cooks.Where(c => c.Id == id).FirstOrDefault(null);
+            return Ok(cook);
         }
 
         // POST api/values

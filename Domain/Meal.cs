@@ -13,32 +13,24 @@ namespace Domain
         {
         }
 
-        public Meal(Dish starter, Dish main, Dish dessert, DateTime dateValid)
+        public Meal(Dish[] dishes, DateTime dateValid)
         {
-            Starter = starter;
-            Main = main;
-            Dessert = dessert;
-            DateValid = dateValid;
+            if (dishes.Length == 3)
+            {
+                Dishes = new List<Dish>(dishes);
+                DateValid = dateValid;
+            }
         }
 
         [Key]
         public int Id { get; set; }
 
         [Required]
-        [Column("Starter")]
-        
-        public Dish Starter { get; set; }
+        [ForeignKey("DishId")]
+        public ICollection<Dish> Dishes { get; set; }
 
         [Required]
-        [Column("Main")]
-        
-        public Dish Main { get; set; }
-
-        [Required]
-        [Column("Dessert")]
-        
-        public Dish Dessert { get; set; }
-
+        [Column("DateValid")]
         public DateTime DateValid { get; set; }
     }
 }

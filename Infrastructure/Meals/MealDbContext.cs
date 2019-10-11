@@ -8,41 +8,32 @@ namespace Infrastructure.Meals
 {
     public  class MealDbContext : DbContext
     {
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+
+        public MealDbContext(DbContextOptions<MealDbContext> options) :base(options)
         {
-            base.OnConfiguring(optionsBuilder);
 
-            Console.WriteLine(AppDomain.CurrentDomain.BaseDirectory);
-
-            IConfigurationRoot configuration = new ConfigurationBuilder()
-            .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
-            .AddJsonFile("appsettings.json")
-            .Build();
-
-            optionsBuilder.UseSqlServer(configuration.GetValue<string>("MealDbConnection"));
         }
+        
+
+
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    // optionsBuilder.UseSqlServer(configuration.GetValue<string>("MealDbConnection"));
+        //    optionsBuilder.UseSqlServer("Server=192.168.2.21;User Id=SSWF5;Password=3A)AD9a#x]zgf+($;Database=SSWFMeals;MultipleActiveResultSets=true");
+        //}
+
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<Cook>().HasIndex(c => c.Email);
-            modelBuilder.Entity<Meal>()
-                .HasIndex(m => m.DateValid);
-            modelBuilder.Entity<Dish>().HasIndex(d => d.Name);
-
-            // KMS
-            modelBuilder.Entity<Meal>().HasOne("Domain.Dish", "Starter")
-                        .WithMany()
-                        .HasForeignKey("StarterId")
-                        .OnDelete(DeleteBehavior.Restrict);
-            modelBuilder.Entity<Meal>().HasOne("Domain.Dish", "Main")
-                        .WithMany()
-                        .HasForeignKey("MainId")
-                        .OnDelete(DeleteBehavior.Restrict);
-            modelBuilder.Entity<Meal>().HasOne("Domain.Dish", "Dessert")
-                        .WithMany()
-                        .HasForeignKey("DessertId")
-                        .OnDelete(DeleteBehavior.Restrict);
+        {   
+            modelBuilder.Entity<Cook>().HasData(new Cook("Henk", "Dekker", "h.d@gmail.com", "0612345678", "1234")
+            {
+                Id = 5
+            });
+            modelBuilder.Entity<Meal>().HasMany<Dish>(m => m.Dishes).WithOne().OnDelete(DeleteBehavior.Restrict);
         }
+
+
 
         public DbSet<Cook> Cooks { get; set; }
         public DbSet<Dish> Dishes { get; set; }
