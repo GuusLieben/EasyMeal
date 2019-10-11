@@ -26,23 +26,18 @@ namespace Infrastructure.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasColumnName("Email");
 
                     b.Property<string>("Firstname")
-                        .IsRequired()
                         .HasColumnName("FirstName");
 
                     b.Property<string>("Lastname")
-                        .IsRequired()
                         .HasColumnName("LastName");
 
                     b.Property<string>("Password")
-                        .IsRequired()
                         .HasColumnName("Hash");
 
                     b.Property<string>("Phonenumber")
-                        .IsRequired()
                         .HasColumnName("PhoneNumber");
 
                     b.HasKey("Id");
@@ -52,7 +47,7 @@ namespace Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 5,
+                            Id = -1,
                             Email = "h.d@gmail.com",
                             Firstname = "Henk",
                             Lastname = "Dekker",
@@ -61,38 +56,19 @@ namespace Infrastructure.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Domain.DietRestrictions", b =>
-                {
-                    b.Property<int>("_id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("RestrictionId")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("DishId");
-
-                    b.Property<int>("_setting")
-                        .HasColumnName("Setting");
-
-                    b.HasKey("_id");
-
-                    b.HasIndex("DishId");
-
-                    b.ToTable("DietRestrictions");
-                });
-
             modelBuilder.Entity("Domain.Dish", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnName("DishId")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnName("Description");
 
-                    b.Property<int?>("DishId")
-                        .HasColumnName("DishId1");
+                    b.Property<string>("DietRestrictions")
+                        .IsRequired()
+                        .HasColumnName("DietRestrictions");
 
                     b.Property<int>("DishSize")
                         .HasColumnName("DishSize");
@@ -105,7 +81,6 @@ namespace Infrastructure.Migrations
                         .HasColumnName("ImageUri");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnName("Name");
 
                     b.Property<double>("Price")
@@ -113,9 +88,42 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DishId");
-
                     b.ToTable("Dishes");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = -3,
+                            Description = "A dish of meat or fish, thinly sliced or pounded thin, and served raw",
+                            DietRestrictions = "[]",
+                            DishSize = 0,
+                            DishType = 0,
+                            ImageUri = "google.com",
+                            Name = "Carpaccio",
+                            Price = 5.7999999999999998
+                        },
+                        new
+                        {
+                            Id = -4,
+                            Description = "A steak cut of beef taken from the smaller end of the tenderloin, or psoas major of the cow carcass",
+                            DietRestrictions = "[]",
+                            DishSize = 1,
+                            DishType = 1,
+                            ImageUri = "google.com",
+                            Name = "Filet Mignons",
+                            Price = 28.300000000000001
+                        },
+                        new
+                        {
+                            Id = -2,
+                            Description = "Moist, delicious layer cake with caramel icing",
+                            DietRestrictions = "[\"No salt\"]",
+                            DishSize = 1,
+                            DishType = 2,
+                            ImageUri = "google.com",
+                            Name = "Salted Caramel Cake",
+                            Price = 3.9500000000000002
+                        });
                 });
 
             modelBuilder.Entity("Domain.Meal", b =>
@@ -133,7 +141,27 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("MenuId");
 
-                    b.ToTable("MealOptionals");
+                    b.ToTable("Meals");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = -5,
+                            DateValid = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        });
+                });
+
+            modelBuilder.Entity("Domain.MealDishes", b =>
+                {
+                    b.Property<int>("MealId");
+
+                    b.Property<int>("DishId");
+
+                    b.HasKey("MealId", "DishId");
+
+                    b.HasIndex("DishId");
+
+                    b.ToTable("MealDishes");
                 });
 
             modelBuilder.Entity("Domain.Menu", b =>
@@ -147,22 +175,7 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("WeekMenus");
-                });
-
-            modelBuilder.Entity("Domain.DietRestrictions", b =>
-                {
-                    b.HasOne("Domain.Dish")
-                        .WithMany("DietRestrictions")
-                        .HasForeignKey("DishId");
-                });
-
-            modelBuilder.Entity("Domain.Dish", b =>
-                {
-                    b.HasOne("Domain.Meal")
-                        .WithMany("Dishes")
-                        .HasForeignKey("DishId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                    b.ToTable("Menus");
                 });
 
             modelBuilder.Entity("Domain.Meal", b =>
@@ -170,6 +183,19 @@ namespace Infrastructure.Migrations
                     b.HasOne("Domain.Menu")
                         .WithMany("Meals")
                         .HasForeignKey("MenuId");
+                });
+
+            modelBuilder.Entity("Domain.MealDishes", b =>
+                {
+                    b.HasOne("Domain.Dish", "Dish")
+                        .WithMany("Meals")
+                        .HasForeignKey("DishId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Domain.Meal", "Meal")
+                        .WithMany("Dishes")
+                        .HasForeignKey("MealId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

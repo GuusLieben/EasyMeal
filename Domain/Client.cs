@@ -12,7 +12,7 @@ namespace Domain
         {
         }
 
-        public Client(int clientId, string city, string street, int houseNumber, string addition, DateTime birthDate, ICollection<DietRestrictions> dietRestrictions, ICollection<Menu> orderHistory)
+        public Client(int clientId, string city, string street, int houseNumber, string addition, DateTime birthDate, ICollection<string> dietRestrictions, ICollection<Menu> orderHistory)
         {
             ClientId = clientId;
             City = city;
@@ -55,7 +55,7 @@ namespace Domain
         [Required]
         [Column("DietRestrictions")]
         [Display(Name = "Diet Restrictions")]
-        public ICollection<DietRestrictions> DietRestrictions { get; set; }
+        public ICollection<string> DietRestrictions { get; set; }
 
         [Column("Orders")]
         public ICollection<Menu> OrderHistory { get; set; }

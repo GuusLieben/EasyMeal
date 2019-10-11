@@ -1,0 +1,33 @@
+﻿@model Domain.Meal
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<div>
+    <h4>Meal Id : @Model.Id</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            Date :
+           <br />
+            Dishes : 
+        </dt>
+        <dd class = "col-sm-10">
+            @Model.DateValid
+            <br />
+            <ul>
+                @foreach (var dish in Model.Dishes)
+                {
+                    <li>@dish.Dish.Name</li>
+}
+            </ul>
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

@@ -13,21 +13,19 @@ namespace Domain
         {
         }
 
-        public Meal(Dish[] dishes, DateTime dateValid)
+        public Meal(DateTime dateValid)
         {
-            if (dishes.Length == 3)
-            {
-                Dishes = new List<Dish>(dishes);
+            
                 DateValid = dateValid;
-            }
+            
         }
 
         [Key]
         public int Id { get; set; }
 
         [Required]
-        [ForeignKey("DishId")]
-        public ICollection<Dish> Dishes { get; set; }
+        [Column("MealDishes")]
+        public ICollection<MealDishes> Dishes { get; set; } = new List<MealDishes>();
 
         [Required]
         [Column("DateValid")]

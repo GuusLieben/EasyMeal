@@ -12,23 +12,24 @@ namespace Domain
         {
         }
 
-        public Dish(int id, string name, string description, string imageUri, DishSize dishSize, double price, DishType dishType)
+        public Dish(string name, string description, string imageUri, DishSize dishSize, double price, DishType dishType)
         {
-            Id = id;
             Name = name;
             Description = description;
             ImageUri = imageUri;
             DishSize = dishSize;
             Price = price;
             DishType = dishType;
+            DietRestrictions = new List<string>();
         }
 
         [Key]
-        [Required]
-        [Column("DishId")]
         public int Id { get; set; }
 
         [Required]
+        [Column("DishMeals")]
+        public ICollection<MealDishes> Meals { get; set; } = new List<MealDishes>();
+
         [Column("Name")]
         public string Name { get; set; }
 
@@ -43,7 +44,13 @@ namespace Domain
         [Required]
         [Column("DietRestrictions")]
         [Display(Name = "Diet Restrictions")]
-        public ICollection<DietRestrictions> DietRestrictions { get; set; }
+        [ForeignKey("DietRestrictions")]
+        public List<string> DietRestrictions { get; set; }
+
+        public void AddRestriction(string restriction)
+        {
+            DietRestrictions.Add(restriction);
+        }
 
         [Required]
         [Column("DishSize")]

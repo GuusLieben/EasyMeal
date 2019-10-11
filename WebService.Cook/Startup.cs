@@ -44,8 +44,7 @@ namespace WebService.Cook
             });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-            services.AddScoped<IMealRepository, EFMealRepository>();
-            services.AddScoped<IOrderRepository, EFOrderRepository>();
+            
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
