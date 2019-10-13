@@ -8,6 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20191013173835_Identity.cs" />
+    <Compile Remove="Migrations\20191013173835_Identity.Designer.cs" />
+    <Compile Remove="Migrations\20191013174652_Identity.cs" />
+    <Compile Remove="Migrations\20191013174652_Identity.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" Version="2.2.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.6" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="2.2.6" />

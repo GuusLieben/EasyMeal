@@ -19,6 +19,10 @@
         <div class="r-footer">
             <ul class="tag-list">
                 <li><span class="c-tag">@Model.Dishes.Count / 3 Dishes</span></li>
+                @foreach (var dish in Model.Dishes)
+                {
+                    <li><span class="c-tag">@dish.Dish.Name</span></li>
+                }
             </ul>
         </div>
     </div>

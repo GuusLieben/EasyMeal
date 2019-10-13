@@ -12,9 +12,8 @@ namespace Domain
         {
         }
 
-        public Client(int clientId, string city, string street, int houseNumber, string addition, DateTime birthDate, ICollection<string> dietRestrictions, ICollection<Menu> orderHistory)
+        public Client(string city, string street, int houseNumber, string addition, DateTime birthDate, ICollection<string> dietRestrictions, ICollection<Menu> orderHistory)
         {
-            ClientId = clientId;
             City = city;
             Street = street;
             HouseNumber = houseNumber;
@@ -23,10 +22,6 @@ namespace Domain
             DietRestrictions = dietRestrictions;
             OrderHistory = orderHistory;
         }
-
-        [Key]
-        [Column("ClientId")]
-        public int ClientId { get; set; }
 
         [Required]
         [Column("City")]

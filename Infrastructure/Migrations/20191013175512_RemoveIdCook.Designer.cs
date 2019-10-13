@@ -4,14 +4,16 @@ using Infrastructure.Meals;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(MealDbContext))]
-    partial class MealDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191013175512_RemoveIdCook")]
+    partial class RemoveIdCook
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,16 +23,8 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Domain.Cook", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<string>("CookId")
                         .ValueGeneratedOnAdd();
-
-                    b.Property<int>("AccessFailedCount");
-
-                    b.Property<string>("ConcurrencyStamp");
-
-                    b.Property<string>("Email");
-
-                    b.Property<bool>("EmailConfirmed");
 
                     b.Property<string>("Firstname")
                         .HasColumnName("FirstName");
@@ -38,52 +32,24 @@ namespace Infrastructure.Migrations
                     b.Property<string>("Lastname")
                         .HasColumnName("LastName");
 
-                    b.Property<bool>("LockoutEnabled");
-
-                    b.Property<DateTimeOffset?>("LockoutEnd");
-
-                    b.Property<string>("NormalizedEmail");
-
-                    b.Property<string>("NormalizedUserName");
-
                     b.Property<string>("Password")
                         .HasColumnName("Hash");
-
-                    b.Property<string>("PasswordHash");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnName("Cook_PhoneNumber");
-
-                    b.Property<bool>("PhoneNumberConfirmed");
 
                     b.Property<string>("Phonenumber")
                         .HasColumnName("PhoneNumber");
 
-                    b.Property<string>("SecurityStamp");
-
-                    b.Property<bool>("TwoFactorEnabled");
-
-                    b.Property<string>("UserName");
-
-                    b.HasKey("Id");
+                    b.HasKey("CookId");
 
                     b.ToTable("Cooks");
 
                     b.HasData(
                         new
                         {
-                            Id = "2c63047e-0a1d-445b-aab1-1a59b9810bad",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "2b39e3b4-37a3-4e5d-9696-6118dfe93577",
-                            Email = "h.d@avans.nl",
-                            EmailConfirmed = false,
+                            CookId = "beta",
                             Firstname = "Henk",
                             Lastname = "Dekker",
-                            LockoutEnabled = false,
                             Password = "1234",
-                            PhoneNumberConfirmed = false,
-                            Phonenumber = "0612345678",
-                            TwoFactorEnabled = false
+                            Phonenumber = "0612345678"
                         });
                 });
 

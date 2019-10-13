@@ -16,17 +16,12 @@ namespace Domain
 
         public Cook(string firstname, string lastname, string email, string phonenumber, string password)
         {
-          
             Firstname = firstname;
             Lastname = lastname;
             Email = email;
             Phonenumber = phonenumber;
             Password = password;
         }
-
-        [Key]
-        [Required]
-        public int Id { get; set; }
 
     }
 }

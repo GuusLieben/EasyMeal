@@ -25,7 +25,7 @@ namespace Infrastructure.Meals
 
             // Seed data
             // Cooks
-            var cook = new Cook("Henk", "Dekker", "h.d@gmail.com", "0612345678", "1234") { Id = -1 };
+            var cook = new Cook("Henk", "Dekker", "h.d@avans.nl" ,"0612345678", "1234");
 
             // Dishes
             var dessert = new Dish("Salted Caramel Cake", "Moist, delicious layer cake with caramel icing", "google.com", DishSize.Medium, 3.95, DishType.Dessert) { Id = -2 };

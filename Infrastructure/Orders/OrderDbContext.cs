@@ -17,7 +17,7 @@ namespace Infrastructure.Orders
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Domain.Client>().HasIndex(c => c.Email);
+            
         }
 
         public DbSet<Domain.Client> Clients { get; set; }

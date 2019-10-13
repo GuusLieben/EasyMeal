@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -6,7 +7,7 @@ using System.Text;
 
 namespace Domain
 {
-    public abstract class IActor
+    public abstract class IActor : IdentityUser
     {
         
         [Column("FirstName")]
@@ -17,11 +18,6 @@ namespace Domain
         [Column("LastName")]
         [Display(Name = "Last Name")]
         public string Lastname { get; set; }
-
-        
-        [Column("Email")]
-        [Display(Name = "E-mail")]
-        public string Email { get; set; }
 
         
         [Column("PhoneNumber")]

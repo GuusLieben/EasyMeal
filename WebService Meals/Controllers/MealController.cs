@@ -19,7 +19,6 @@ namespace WebService_Meals.Controllers
             _repo = repo;
         }
 
-        // GET: /<controller>/
         public IActionResult Index()
         {
             return View(_repo.GetAllMealOptions());
