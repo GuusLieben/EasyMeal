@@ -22,8 +22,25 @@ namespace WebService_Meals.Controllers
         // GET: /<controller>/
         public IActionResult Index()
         {
-            Meal meal = _repo.GetMeal(-5);
-            return View(meal);
+            return View(_repo.GetAllMealOptions());
+        }
+
+        public IActionResult Create()
+        {
+            List<Dish> starters = new List<Dish>();
+            List<Dish> mains = new List<Dish>();
+            List<Dish> desserts = new List<Dish>();
+            foreach (Dish dish in _repo.GetAllDishes())
+            {
+                if (dish.DishType.Equals(DishType.Starter)) starters.Add(dish);
+                else if (dish.DishType.Equals(DishType.Main)) mains.Add(dish);
+                else if (dish.DishType.Equals(DishType.Dessert)) desserts.Add(dish);
+            }
+            ViewBag.Starters = starters;
+            ViewBag.Mains = mains;
+            ViewBag.Desserts = desserts;
+
+            return View();
         }
     }
 }

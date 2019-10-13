@@ -29,6 +29,7 @@ namespace Domain
 
         [Required]
         [Column("DateValid")]
+        [Display(Name ="Date Valid")]
         public DateTime DateValid { get; set; }
     }
 }

@@ -1,33 +1,21 @@
-﻿@model Domain.Meal
+﻿@model IEnumerable<Domain.Meal>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Meals";
+    ViewData["Results"] = Model.Count();
 }
 
-<h1>Index</h1>
+<partial name="../Shared/IndexHeader" />
 
-<div>
-    <h4>Meal Id : @Model.Id</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            Date :
-           <br />
-            Dishes : 
-        </dt>
-        <dd class = "col-sm-10">
-            @Model.DateValid
-            <br />
-            <ul>
-                @foreach (var dish in Model.Dishes)
-                {
-                    <li>@dish.Dish.Name</li>
-}
-            </ul>
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+
+
+<div id="" class="card-list columns is-multiline is-marginless">
+
+
+
+    @foreach (var item in Model)
+    {
+        <partial name="../Shared/MealModelCard" model="item" />
+
+    }
 </div>

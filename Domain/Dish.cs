@@ -39,6 +39,7 @@ namespace Domain
 
         [Required]
         [Column("ImageUri")]
+        [Display(Name="Image Uri")]
         public string ImageUri { get; set; }
 
         [Required]
@@ -63,6 +64,7 @@ namespace Domain
 
         [Required]
         [Column("Type")]
+        [Display(Name = "Dish Type")]
         public DishType DishType { get; set; }
     }
 }

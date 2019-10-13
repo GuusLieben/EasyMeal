@@ -3,8 +3,10 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - WebService_Meals</title>
+    <title>@ViewData["Title"] - EasyMeal - Cook</title>
 
+    
+    <link rel="stylesheet" href="https://apexdesignpreview.blob.core.windows.net/$web/assets/css/app.css" />
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
     </environment>
@@ -13,42 +15,79 @@
               asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute"
               crossorigin="anonymous"
-              integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"/>
+              integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" />
     </environment>
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">WebService_Meals</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
+
+    <div class="sub-nav-bar">
+        <nav class="breadcrumb container is-fullhd has-med-x-padding" aria-label="breadcrumbs">
+            <ul class="">
+                <li><a href="index.html">Home</a></li>
+                <li class="is-active"><a href="#" aria-current="page">Administration</a></li>
+            </ul>
         </nav>
-    </header>
-    <div class="container">
-        <partial name="_CookieConsentPartial" />
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2019 - WebService_Meals - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+
+    <div class="has-med-y-padding ">
+        <div class="container is-fullhd has-sml-x-padding">
+            <div class="columns is-marginless">
+                <!-- <div class="column is-narrow is-2-desktop is-offset-1-desktop has-med-padding">
+                    <img src="images/site-laptop.svg" width="150" alt="">
+                </div> -->
+                <div class="column is-8-desktop" style="display: flex; flex-direction: column; justify-content: center;">
+                    <h1>EasyMeal</h1>
+                    <p class="lead ">
+                        Administration services
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="neutral-05-bg">
+        <div class="container is-fullhd">
+            <div class="columns is-marginless">
+                <div class="column is-one-third-tablet is-one-quarter-desktop side-column">
+                    <nav class="c-refine-menu">
+                        <div id="refineMenu" aria-hidden="false">
+                            <div>
+                                <h2 class="c-heading">@ViewData["Title"]</h2>
+                            </div>
+                            <!-- <div> -->
+                            <hr class="c-divider">
+                            <div class="c-drawer">
+                                <button onclick="location.href='@Url.Action("Index", "Meal")'" class="c-glyph closed navbtn" aria-expanded="true" aria-controls="">Meals</button>
+                            </div>
+                            <!-- </div>
+    <div> -->
+                            <hr class="c-divider">
+                            <div class="c-drawer">
+                                <button onclick="location.href='@Url.Action("Index", "Dish")'" class="c-glyph closed navbtn" aria-expanded="true" aria-controls="">Dishes</button>
+                            </div>
+                            <!-- </div> -->
+                        </div>
+                        <div style="display: none;">
+                            <button aria-controls="refineMenu" class="c-action-trigger" aria-expanded="true"><span>Expand refine menu</span></button>
+                        </div>
+                    </nav>
+                </div>
+                <div class="column">
+                    @RenderBody()
+                </div>
+            </div>
+        </div> <!-- /.container -->
+    </div>
+
+    <footer id="footer" data-bi-name="footer" class="has-med-y-padding" role="contentinfo">
+        <div class="container is-fullhd">
+            <div class="columns">
+                <div class="column">
+                    <p>&copy; 1998 - @DateTime.Today.Year EasyMeal</p>
+                </div>
+            </div>
         </div>
     </footer>
 

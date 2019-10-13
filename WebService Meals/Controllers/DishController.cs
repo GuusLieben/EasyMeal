@@ -20,7 +20,19 @@ namespace WebService_Meals.Controllers
 
         public IActionResult Index()
         {
-            Dish dish = _repo.GetDish(-2);
+            
+            return View(_repo.GetAllDishes());
+        }
+
+        public IActionResult Edit(int id)
+        {
+            Dish dish = _repo.GetDish(id);
+            return View(dish);
+        }
+
+        public IActionResult Detail(int id)
+        {
+            Dish dish = _repo.GetDish(id);
             return View(dish);
         }
     }

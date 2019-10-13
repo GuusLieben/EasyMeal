@@ -33,7 +33,6 @@ namespace Infrastructure.Meals
             return context.Meals.Where(mo => mo.DateValid.Week() == week && mo.DateValid.Year == year);
         }
 
-
         public Dish GetDish(int id)
         {
             return context.Dishes.SingleOrDefault(d => d.Id == id);
