@@ -49,7 +49,7 @@ namespace WebService_Meals
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddScoped<IMealServiceRepository, EFMealServiceRepository>();
-            services.AddScoped<IOrderRepository, EFOrderRepository>();
+            
 
         }
 

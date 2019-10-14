@@ -44,7 +44,7 @@
                 <select asp-for="Dishes" class="form-control">
                     @foreach (var opt in ViewBag.Desserts)
                     {
-                    <option value="@opt.Name">#@opt.Id : @opt.Name</option>
+                        <option value="@opt.Name">#@opt.Id : @opt.Name</option>
                     }
                 </select>
                 <span asp-validation-for="Dishes" class="text-danger"></span>

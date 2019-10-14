@@ -66,7 +66,7 @@ namespace WebService_Meals.Controllers
         {
             if (ModelState.IsValid)
             {
-                model.Price = model.Price / 100;
+                model.Price /= 100;
                 _repo.EditDish(model);
                 return RedirectToAction("Index");
             }

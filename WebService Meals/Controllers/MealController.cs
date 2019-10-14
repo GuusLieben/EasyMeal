@@ -44,10 +44,32 @@ namespace WebService_Meals.Controllers
             return View();
         }
 
+
+        [HttpPost, ValidateAntiForgeryToken]
+        public IActionResult Create(Meal model)
+        {
+            if (ModelState.IsValid)
+            {
+                _repo.CreateMeal(model, new Dish[] { });
+                return RedirectToAction("Index");
+            }
+            return View();
+        }
+
+
         public IActionResult Detail(int Id)
         {
             var meal = _repo.GetMeal(Id);
             return View(meal);
         }
+
+        public IActionResult Edit(int Id)
+        {
+            var meal = _repo.GetMeal(Id);
+            return View(meal);
+        }
+
+
+
     }
 }

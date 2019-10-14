@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DomainModels;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -12,7 +13,7 @@ namespace Domain
         {
         }
 
-        public Client(string city, string street, int houseNumber, string addition, DateTime birthDate, ICollection<string> dietRestrictions, ICollection<Menu> orderHistory)
+        public Client(string city, string street, int houseNumber, string addition, DateTime birthDate, ICollection<string> dietRestrictions, ICollection<ClientOrder> orderHistory)
         {
             City = city;
             Street = street;
@@ -22,6 +23,10 @@ namespace Domain
             DietRestrictions = dietRestrictions;
             OrderHistory = orderHistory;
         }
+
+
+        [Key]
+        public override string Id { get => base.Id; set => base.Id = value; }
 
         [Required]
         [Column("City")]
@@ -53,6 +58,7 @@ namespace Domain
         public ICollection<string> DietRestrictions { get; set; }
 
         [Column("Orders")]
-        public ICollection<Menu> OrderHistory { get; set; }
+        
+        public ICollection<ClientOrder> OrderHistory { get; set; }
     }
 }

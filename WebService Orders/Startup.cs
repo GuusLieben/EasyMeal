@@ -2,11 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Domain;
+using Domain.Services;
+using Infrastructure.Orders;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -31,8 +35,16 @@ namespace WebService_Orders
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            services.AddDbContext<OrderDbContext>(options =>
+            {
+                options.UseSqlServer(Configuration.GetConnectionString("OrderDbConnection"), b => b.MigrationsAssembly("Infrastructure"));
+            });
+
+            services.AddDefaultIdentity<Client>()
+                .AddEntityFrameworkStores<OrderDbContext>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddScoped<IOrderRepository, EFOrderRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

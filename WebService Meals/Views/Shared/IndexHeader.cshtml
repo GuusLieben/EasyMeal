@@ -1,13 +1,22 @@
 ﻿<!-- Item count and sort -->
-<div class="columns is-mobile is-multiline" style="padding-left: 15px; align-items: center; margin-bottom: 0;">
+    <div class="columns is-mobile is-multiline" style="padding-left: 15px; align-items: center; margin-bottom: 0;">
 
-    <div class="column is-12-mobile is-12-tablet is-2-desktop has-text-weight-semibold">
+        <div class="column is-12-mobile is-12-tablet is-12-desktop has-text-weight-semibold">
 
-        <br><div style="display: inline;">
+            <br><div style="display: inline;">
 
-            @ViewData["Results"] result(s)&emsp;&emsp;<a class="btn btn-info" asp-action="Create">New</a>
+                @ViewData["Results"] result(s)&emsp;&emsp;<a class="btn btn-info" asp-action="Create">New</a>
 
+            </div>
         </div>
-    </div>
+        <div class="column is-12-mobile is-12-tablet is-12-desktop" style="margin-top: -80px;">
+            <ul class="is-flex action-nav">
+                
+                <li>
+                    <button class="button btn-list is-transparent"><i class="fas fa-bars"></i></button>
+                    <button class="button btn-grid is-transparent"><i class="fas fa-th-large"></i></button>
+                </li>
+            </ul>
+        </div>
 
-</div>
+    </div>

@@ -66,10 +66,8 @@ namespace WebService_Meals.Areas.Identity.Pages.Account
             ReturnUrl = returnUrl;
         }
 
-        public async Task<IActionResult> OnPostAsync(string returnUrl = null)
+        public async Task<IActionResult> OnPostAsync()
         {
-            returnUrl = returnUrl ?? Url.Content("~/Meal");
-
             if (ModelState.IsValid)
             {
                 // This doesn't count login failures towards account lockout
