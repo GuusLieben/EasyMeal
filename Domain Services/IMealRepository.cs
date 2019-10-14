@@ -12,7 +12,7 @@ namespace Domain.Services
 
         // DISHES
         // CREATE
-        Boolean CreateDish(Dish dish);
+        bool CreateDish(Dish dish);
 
         // READ
         Dish GetDish(int Id);
@@ -22,32 +22,33 @@ namespace Domain.Services
 
         
         // UPDATE
-        Boolean EditDish(Dish model);
+        bool EditDish(Dish model);
 
         // DELETE
-        Boolean DeleteDish(int Id);
+        bool DeleteDish(int Id);
 
 
         // MEALS
         // CREATE
-        Boolean CreateMeal(Meal meal, Dish[] dishes);
+        bool CreateMeal(Meal meal, Dish[] dishes);
 
         // READ
         Meal GetMeal(int Id);
         IEnumerable<Meal> GetAllMealOptions();
         IEnumerable<Meal> GetAllMealOptionsForWeek(int week, int year);
         IEnumerable<Meal> GetAllMealOptionsForDay(DateTime day);
+        
 
         // UPDATE
-        Boolean EditMeal(Meal meal);
+        bool EditMeal(Meal meal);
 
         // DELETE
-        Boolean DeleteMeal(int Id);
+        bool DeleteMeal(int Id);
 
 
         // MENUS
         // CREATE
-        Boolean CreateMenu(Menu menu);
+        bool CreateMenu(Menu menu);
 
         // READ
         Menu GetMenu(int Id);
@@ -55,10 +56,10 @@ namespace Domain.Services
 
 
         // UPDATE
-        Boolean EditMenu(Menu menu);
+        bool EditMenu(Menu menu);
 
         // DELETE
-        Boolean DeleteMenu(int Id);
+        bool DeleteMenu(int Id);
         
         
     }

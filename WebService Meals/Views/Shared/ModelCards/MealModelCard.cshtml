@@ -1,4 +1,5 @@
 ﻿<div class="column is-6 is-4-desktop">
+
     <div class="c-card is-sample is-padded ">
 
         <a asp-action="Edit" asp-route-id="@Model.Id">
@@ -19,10 +20,10 @@
         <div class="r-footer">
             <ul class="tag-list">
                 <li><span class="c-tag">@Model.Dishes.Count / 3 Dishes</span></li>
-                @foreach (var dish in Model.Dishes)
-                {
-                    <li><span class="c-tag">@dish.Dish.Name</span></li>
-                }
+                <!-- foreach (var dish in ViewBag.AssociatedDishes.Find(t => t.Item1 == Model.Id))
+     {
+         <li><span class="c-tag">dish.Dish.Name</span></li>
+     }-->
             </ul>
         </div>
     </div>

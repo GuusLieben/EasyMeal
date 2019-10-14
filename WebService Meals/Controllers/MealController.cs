@@ -6,8 +6,7 @@ using Domain;
 using Domain.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
-// For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+using WebService_Meals.Models;
 
 namespace WebService_Meals.Controllers
 {
@@ -23,7 +22,15 @@ namespace WebService_Meals.Controllers
 
         public IActionResult Index()
         {
-            return View(_repo.GetAllMealOptions());
+            var meals = _repo.GetAllMealOptions();
+            var associatedDishes = new List<Tuple<int, IEnumerable<Dish>>>();
+            foreach (Meal meal in meals)
+            {
+                var tuple = new Tuple<int, IEnumerable<Dish>>(meal.Id, _repo.GetAllDishesForMeal(meal));
+            }
+            ViewBag.AssociatedDishes = associatedDishes;
+            
+            return View(meals);
         }
 
         public IActionResult Create()
@@ -46,11 +53,16 @@ namespace WebService_Meals.Controllers
 
 
         [HttpPost, ValidateAntiForgeryToken]
-        public IActionResult Create(Meal model)
+        public IActionResult Create(CreateMealModel model)
         {
             if (ModelState.IsValid)
             {
-                _repo.CreateMeal(model, new Dish[] { });
+                Dish starter = _repo.GetDish(model.StarterId);
+                Dish main = _repo.GetDish(model.MainId);
+                Dish dessert = _repo.GetDish(model.DessertId);
+                Meal meal = new Meal(model.DateValid);
+
+                _repo.CreateMeal(meal, new Dish[] { starter, main, dessert });
                 return RedirectToAction("Index");
             }
             return View();
@@ -60,6 +72,7 @@ namespace WebService_Meals.Controllers
         public IActionResult Detail(int Id)
         {
             var meal = _repo.GetMeal(Id);
+            ViewBag.Dishes = _repo.GetAllDishesForMeal(meal);
             return View(meal);
         }
 

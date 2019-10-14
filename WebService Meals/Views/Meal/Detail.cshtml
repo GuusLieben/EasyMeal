@@ -12,12 +12,14 @@
         <li class="readingTime">@Model.DateValid.ToShortDateString() - Week @Domain.WeekMenuEM.Week(Model.DateValid)</li>
     </ul>
     <div style="margin-top: 25px">
-        <p>@Model.Dishes.Count/3 Dishes</p>
-        @foreach (var dish in Model.Dishes)
+        @foreach (var dish in ViewBag.Dishes)
         {
-            <p>@dish.Dish.DishType : @dish.Dish.Name</p>
+            <h5>@dish.DishType : @dish.Name</h5>
+            <p><em>@dish.Description</em></p>
+            <br />
         }
     </div>
+    <br />
 
 
 </div>

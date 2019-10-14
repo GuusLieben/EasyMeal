@@ -1,4 +1,4 @@
-﻿@model Domain.Meal
+﻿@model WebService_Meals.Models.CreateMealModel
 
 @{
     ViewData["Title"] = "Create";
@@ -20,34 +20,34 @@
             </div>
 
             <div class="form-group">
-                <label asp-for="Dishes" class="control-label">Starter</label>
-                <select asp-for="Dishes" class="form-control">
+                <label asp-for="StarterId" class="control-label">Starter</label>
+                <select asp-for="StarterId" class="form-control">
                     @foreach (var opt in ViewBag.Starters)
                     {
-                    <option value="@opt.Name">#@opt.Id : @opt.Name</option>
+                    <option value="@opt.Id">#@opt.Id : @opt.Name</option>
                     }
                 </select>
-                <span asp-validation-for="Dishes" class="text-danger"></span>
+                <span asp-validation-for="StarterId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Dishes" class="control-label">Main</label>
-                <select asp-for="Dishes" class="form-control">
+                <label asp-for="MainId" class="control-label">Main</label>
+                <select asp-for="MainId" class="form-control">
                     @foreach (var opt in ViewBag.Mains)
                     {
-                            <option value="@opt.Name">#@opt.Id : @opt.Name</option>
+                            <option value="@opt.Id">#@opt.Id : @opt.Name</option>
                     }
                 </select>
-                <span asp-validation-for="Dishes" class="text-danger"></span>
+                <span asp-validation-for="MainId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Dishes" class="control-label">Dessert</label>
-                <select asp-for="Dishes" class="form-control">
+                <label asp-for="DessertId" class="control-label">Dessert</label>
+                <select asp-for="DessertId" class="form-control">
                     @foreach (var opt in ViewBag.Desserts)
                     {
-                        <option value="@opt.Name">#@opt.Id : @opt.Name</option>
+                        <option value="@opt.Id">#@opt.Id : @opt.Name</option>
                     }
                 </select>
-                <span asp-validation-for="Dishes" class="text-danger"></span>
+                <span asp-validation-for="DessertId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />

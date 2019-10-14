@@ -64,6 +64,6 @@ namespace Infrastructure.Meals
         public DbSet<Dish> Dishes { get; set; }
         public DbSet<Meal> Meals { get; set; }
         public DbSet<Menu> Menus { get; set; }
-
+        public DbSet<MealDishes> MealDishes { get; set; }
     }
 }

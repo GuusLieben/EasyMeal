@@ -20,7 +20,7 @@ namespace Infrastructure.Meals
 
         // DISHES
         // CREATE
-        public Boolean CreateDish(Dish dish)
+        public bool CreateDish(Dish dish)
         {
             try
             {
@@ -35,9 +35,9 @@ namespace Infrastructure.Meals
         }
 
         // READ
-        public Dish GetDish(int id)
+        public Dish GetDish(int Id)
         {
-            return context.Dishes.SingleOrDefault(d => d.Id == id);
+            return context.Dishes.SingleOrDefault(d => d.Id == Id);
         }
         public IEnumerable<Dish> GetAllDishes()
         {
@@ -45,17 +45,20 @@ namespace Infrastructure.Meals
         }
         public IEnumerable<Dish> GetAllDishesForMeal(Meal meal)
         {
-            IEnumerable<MealDishes> mealDishes = meal.Dishes;
-            if (mealDishes == null) return new List<Dish>();
-            else
+            var mealDishes = context.MealDishes.Where(md => md.MealId == meal.Id);
+            Dish[] dishes = new Dish[3];
+            foreach (var md in mealDishes)
             {
-                List<Dish> dishes = new List<Dish>();
-                foreach (MealDishes mealDish in mealDishes)
+                var dish = GetDish(md.DishId);
+                if (dish != null)
                 {
-                    dishes.Add(mealDish.Dish);
+                    if (dish.DishType.Equals(DishType.Starter)) dishes[0] = dish;
+                    if (dish.DishType.Equals(DishType.Main)) dishes[1] = dish;
+                    if (dish.DishType.Equals(DishType.Dessert)) dishes[2] = dish;
                 }
-                return dishes;
             }
+
+            return dishes;
         }
         public IEnumerable<Dish> GetAllDishesForMeal(int mealId)
         {
@@ -68,12 +71,11 @@ namespace Infrastructure.Meals
         }
 
         // UPDATE
-        public Boolean EditDish(Dish model)
+        public bool EditDish(Dish model)
         {
             try
             {
                 context.Dishes.Attach(model);
-                //context.Entry(model).Property(m => m).IsModified = true;
                 context.Update(model);
                 context.SaveChanges();
                 return true;
@@ -85,7 +87,7 @@ namespace Infrastructure.Meals
         }
 
         // DELETE
-        public Boolean DeleteDish(int Id)
+        public bool DeleteDish(int Id)
         {
             try
             {
@@ -131,9 +133,9 @@ namespace Infrastructure.Meals
         }
 
         // READ
-        public Meal GetMeal(int id)
+        public Meal GetMeal(int Id)
         {
-            return context.Meals.SingleOrDefault(m => m.Id == id);
+            return context.Meals.SingleOrDefault(m => m.Id == Id);
         }
         public IEnumerable<Meal> GetAllMealOptions()
         {
@@ -151,13 +153,35 @@ namespace Infrastructure.Meals
         // UPDATE
         public bool EditMeal(Meal meal)
         {
-            throw new NotImplementedException();
+            try
+            {
+                context.Meals.Attach(meal);
+                context.Update(meal);
+                context.SaveChanges();
+                return true;
+            } catch (Exception)
+            {
+                return false;
+            }
         }
 
         // DELETE
         public bool DeleteMeal(int Id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                Meal meal = context.Meals.Where(m => m.Id == Id).SingleOrDefault();
+                if (meal == null) return false;
+                else
+                {
+                    context.Remove(meal);
+                    context.SaveChanges();
+                    return true;
+                }
+            } catch (Exception)
+            {
+                return false;
+            }
         }
 
 
@@ -165,13 +189,22 @@ namespace Infrastructure.Meals
         // CREATE
         public bool CreateMenu(Menu menu)
         {
-            throw new NotImplementedException();
+            try
+            {
+                context.Add(menu);
+                context.SaveChanges();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         // READ
         public Menu GetMenu(int Id)
         {
-            throw new NotImplementedException();
+            return context.Menus.SingleOrDefault(m => m.Id == Id);
         }
         public IEnumerable<Menu> GetAllMenus()
         {
@@ -181,32 +214,38 @@ namespace Infrastructure.Meals
         // UPDATE
         public bool EditMenu(Menu menu)
         {
-            throw new NotImplementedException();
+            try
+            {
+                context.Menus.Attach(menu);
+                context.Update(menu);
+                context.SaveChanges();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         // DELETE
         public bool DeleteMenu(int Id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                Menu menu = context.Menus.Where(m => m.Id == Id).SingleOrDefault();
+                if (menu == null) return false;
+                else
+                {
+                    context.Remove(menu);
+                    context.SaveChanges();
+                    return true;
+                }
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     }
 }
