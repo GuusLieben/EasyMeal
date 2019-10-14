@@ -93,6 +93,9 @@ ul {
         content: "⯇" !important;
     }
 
+.c-badge {
+    padding: 3px 10px !important;
+}
 
 .o-highlight {
     font-weight: 600;

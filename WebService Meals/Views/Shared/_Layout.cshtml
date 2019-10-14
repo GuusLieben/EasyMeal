@@ -37,11 +37,27 @@
                 <!-- <div class="column is-narrow is-2-desktop is-offset-1-desktop has-med-padding">
                     <img src="images/site-laptop.svg" width="150" alt="">
                 </div> -->
+                <div class="column is-2-desktop" style="margin-right: -400px;">
+                    <img src="~/img/logo-medium-nobord-transp.png" width="100px" height="100px" />
+                </div>
+
                 <div class="column is-8-desktop" style="display: flex; flex-direction: column; justify-content: center;">
+                    
                     <h1>EasyMeal</h1>
-                    <p class="lead ">
-                        Administration services
-                    </p>
+                    @{
+                        if (User.Identity.IsAuthenticated)
+                        {
+                            <p class="lead ">
+                                Administration services - Logged in as @User.Identity.Name
+                            </p>
+                        }
+                        else
+                        {
+                            <p class="lead ">
+                                Administration services
+                            </p>
+                        }
+                    }
                 </div>
             </div>
         </div>
@@ -58,15 +74,36 @@
                             </div>
                             <!-- <div> -->
                             <hr class="c-divider">
-                            <div class="c-drawer">
-                                <button onclick="location.href='@Url.Action("Index", "Meal")'" class="c-glyph closed navbtn" aria-expanded="true" aria-controls="">Meals</button>
-                            </div>
-                            <!-- </div>
-    <div> -->
-                            <hr class="c-divider">
-                            <div class="c-drawer">
-                                <button onclick="location.href='@Url.Action("Index", "Dish")'" class="c-glyph closed navbtn" aria-expanded="true" aria-controls="">Dishes</button>
-                            </div>
+
+
+                            @{
+                                if (User.Identity.IsAuthenticated)
+                                {
+
+                                    <div class="c-drawer">
+                                        <button onclick="location.href='@Url.Action("Index", "Menu")'" class="c-glyph closed navbtn" aria-expanded="true" aria-controls="">Menus</button>
+                                    </div>
+                                    <hr class="c-divider">
+                                    <div class="c-drawer">
+                                        <button onclick="location.href='@Url.Action("Index", "Meal")'" class="c-glyph closed navbtn" aria-expanded="true" aria-controls="">Meals</button>
+                                    </div>
+                                    <!-- </div>
+            <div> -->
+                                    <hr class="c-divider">
+                                    <div class="c-drawer">
+                                        <button onclick="location.href='@Url.Action("Index", "Dish")'" class="c-glyph closed navbtn" aria-expanded="true" aria-controls="">Dishes</button>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="c-drawer">
+                                        <button onclick="location.href='@Url.Action("Index", "Meal")'" class="c-glyph closed navbtn" aria-expanded="true" aria-controls="">Login</button>
+                                    </div>
+                                }
+                            }
+
+
+                            <hr class="c-divider" style="margin-bottom: 100px;">
                             <!-- </div> -->
                         </div>
                         <div style="display: none;">

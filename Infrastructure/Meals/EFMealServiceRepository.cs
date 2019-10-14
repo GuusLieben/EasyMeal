@@ -18,6 +18,11 @@ namespace Infrastructure.Meals
             this.context = context;
         }
 
+        public Meal GetMeal(int id)
+        {
+            return context.Meals.SingleOrDefault(m => m.Id == id);
+        }
+
         public IEnumerable<Meal> GetAllMealOptions()
         {
             return context.Meals;
@@ -68,9 +73,54 @@ namespace Infrastructure.Meals
             return meal == null ? new List<Dish>() : GetAllDishesForMeal(meal);
         }
 
-        public Meal GetMeal(int id)
+        public bool CreateDish(Dish dish)
         {
-            return context.Meals.SingleOrDefault(m => m.Id == id);
+            try
+            {
+                context.Add(dish);
+                context.SaveChanges();
+                return true;
+            } catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public Boolean DeleteDish(int Id)
+        {
+            try { 
+            Dish dish = context.Dishes.Where(d => d.Id == Id).SingleOrDefault();
+            if (dish == null) return false;
+            else
+            {
+                context.Remove(dish);
+                context.SaveChanges();
+                return true;
+            }
+            } catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public bool EditDish(Dish model)
+        {
+            try
+            {
+                context.Dishes.Attach(model);
+                //context.Entry(model).Property(m => m).IsModified = true;
+                context.Update(model);
+                context.SaveChanges();
+                return true;
+            } catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public IEnumerable<Menu> GetAllMenus()
+        {
+            return context.Menus;
         }
     }
 }

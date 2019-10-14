@@ -1,0 +1,26 @@
+﻿@model Domain.Meal
+
+@{
+    ViewData["Title"] = "Detail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+
+    <h4>@Model.DateValid.ToLongDateString()</h4>
+    <ul class="metadata page-metadata" data-bi-name="page info" lang="en-us" dir="ltr">
+        <li class="readingTime">@Model.DateValid.ToShortDateString() - Week @Domain.WeekMenuEM.Week(Model.DateValid)</li>
+    </ul>
+    <div style="margin-top: 25px">
+        <p>@Model.Dishes.Count/3 Dishes</p>
+        @foreach (var dish in Model.Dishes)
+        {
+            <p>@dish.Dish.DishType : @dish.Dish.Name</p>
+        }
+    </div>
+
+
+</div>
+<div>
+    <a class="btn btn-info" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+</div>

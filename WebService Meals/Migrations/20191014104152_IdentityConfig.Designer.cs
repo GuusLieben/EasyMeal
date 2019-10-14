@@ -4,14 +4,16 @@ using Infrastructure.Meals;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace Infrastructure.Migrations
+namespace WebService_Meals.Migrations
 {
     [DbContext(typeof(MealDbContext))]
-    partial class MealDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191014104152_IdentityConfig")]
+    partial class IdentityConfig
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -30,6 +32,7 @@ namespace Infrastructure.Migrations
                         .HasColumnName("Description");
 
                     b.Property<string>("DietRestrictions")
+                        .IsRequired()
                         .HasColumnName("DietRestrictions");
 
                     b.Property<int>("DishSize")
@@ -43,7 +46,6 @@ namespace Infrastructure.Migrations
                         .HasColumnName("ImageUri");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnName("Name");
 
                     b.Property<double>("Price")
@@ -98,7 +100,11 @@ namespace Infrastructure.Migrations
                     b.Property<DateTime>("DateValid")
                         .HasColumnName("DateValid");
 
+                    b.Property<int?>("MenuId");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("MenuId");
 
                     b.ToTable("Meals");
 
@@ -127,25 +133,14 @@ namespace Infrastructure.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnName("MenuId")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Meals")
-                        .HasColumnName("Meals");
-
-                    b.Property<DateTime>("Week")
-                        .HasColumnName("Week");
+                    b.Property<DateTime>("Week");
 
                     b.HasKey("Id");
 
                     b.ToTable("Menus");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = -6,
-                            Meals = "[-5]",
-                            Week = new DateTime(2019, 10, 14, 0, 0, 0, 0, DateTimeKind.Local)
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -340,19 +335,25 @@ namespace Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "f2a07c42-e2a6-45ce-8024-b4211eab9ea2",
+                            Id = "e6f14beb-5800-465e-9beb-9a8339a460fd",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "f937054a-7706-4cf7-9cdf-b919c015469f",
+                            ConcurrencyStamp = "f852abae-f499-404b-9fe4-94734d0fd6c7",
                             Email = "h.d@avans.nl",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
-                            UserName = "h.d@avans.nl",
                             Firstname = "Henk",
                             Lastname = "Dekker",
                             Phonenumber = "0612345678"
                         });
+                });
+
+            modelBuilder.Entity("Domain.Meal", b =>
+                {
+                    b.HasOne("Domain.Menu")
+                        .WithMany("Meals")
+                        .HasForeignKey("MenuId");
                 });
 
             modelBuilder.Entity("Domain.MealDishes", b =>

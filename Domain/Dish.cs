@@ -12,7 +12,7 @@ namespace Domain
         {
         }
 
-        public Dish(string name, string description, string imageUri, DishSize dishSize, double price, DishType dishType)
+        public Dish(string name, string description, string imageUri, DishSize dishSize, Double price, DishType dishType)
         {
             Name = name;
             Description = description;
@@ -30,6 +30,7 @@ namespace Domain
         [Column("DishMeals")]
         public ICollection<MealDishes> Meals { get; set; } = new List<MealDishes>();
 
+        [Required]
         [Column("Name")]
         public string Name { get; set; }
 
@@ -42,7 +43,6 @@ namespace Domain
         [Display(Name="Image Uri")]
         public string ImageUri { get; set; }
 
-        [Required]
         [Column("DietRestrictions")]
         [Display(Name = "Diet Restrictions")]
         [ForeignKey("DietRestrictions")]
@@ -58,9 +58,9 @@ namespace Domain
         [Display(Name = "Dish Size")]
         public DishSize DishSize { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "The price field is required.")]
         [Column("Price")]
-        public double Price { get; set; }
+        public Double Price { get; set; }
 
         [Required]
         [Column("Type")]

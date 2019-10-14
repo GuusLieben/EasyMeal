@@ -4,14 +4,16 @@ using Infrastructure.Meals;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(MealDbContext))]
-    partial class MealDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191014134426_AddMenuData2")]
+    partial class AddMenuData2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -138,14 +140,6 @@ namespace Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Menus");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = -6,
-                            Meals = "[-5]",
-                            Week = new DateTime(2019, 10, 14, 0, 0, 0, 0, DateTimeKind.Local)
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -340,9 +334,9 @@ namespace Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "f2a07c42-e2a6-45ce-8024-b4211eab9ea2",
+                            Id = "c7afa576-0de5-4aa6-9a26-a27c62e3ab05",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "f937054a-7706-4cf7-9cdf-b919c015469f",
+                            ConcurrencyStamp = "5906c030-10bc-4585-aaeb-6f67e682a6c5",
                             Email = "h.d@avans.nl",
                             EmailConfirmed = false,
                             LockoutEnabled = false,

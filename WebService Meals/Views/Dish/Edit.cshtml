@@ -11,7 +11,7 @@
     <div class="col-md-12">
         
 
-            <form asp-action="View">
+            <form asp-action="Edit">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
                     <label asp-for="Name" class="control-label"></label>
@@ -35,8 +35,8 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="Price" class="control-label"></label> (€)
-                    <input asp-for="Price" class="form-control" value="@String.Format("{0:0.00}", Model.Price)" />
-                    <span asp-validation-for="Price" class="text-danger"></span>
+                    <input type="number" min=0 step="0.01" asp-for="Price" class="form-control" value="@Model.Price" />
+                    <span asp-validation-for="Price" class="text-danger"></span> 
                 </div>
                 <div class="form-group">
                     <label asp-for="DishType" class="control-label"></label>
@@ -56,7 +56,7 @@
                     <span asp-validation-for="DishType" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <input class="btn btn-info" type="submit" value="Save" class="btn btn-primary" />
+                    <input formmethod="post" class="btn btn-info" type="submit" value="Save" />
                     <a style="margin-left: 50px;" class="btn btn-danger" asp-action="Delete" asp-route-id="@Model.Id">Delete</a>
                 </div>
             </form>

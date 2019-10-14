@@ -4,12 +4,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using Domain;
 using Domain.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace WebService_Meals.Controllers
 {
+    [Authorize]
     public class MealController : Controller
     {
         private readonly IMealServiceRepository _repo;
@@ -40,6 +42,12 @@ namespace WebService_Meals.Controllers
             ViewBag.Desserts = desserts;
 
             return View();
+        }
+
+        public IActionResult Detail(int Id)
+        {
+            var meal = _repo.GetMeal(Id);
+            return View(meal);
         }
     }
 }

@@ -1,13 +1,12 @@
-﻿@model IEnumerable<Domain.Meal>
+﻿@model IEnumerable<Domain.Menu>
 
 @{
-    ViewData["Title"] = "Meals";
+    ViewData["Title"] = "Menus";
     ViewData["Results"] = Model.Count();
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <partial name="../Shared/IndexHeader" />
-
-
 
 <div id="" class="card-list columns is-multiline is-marginless">
 
@@ -15,7 +14,7 @@
 
     @foreach (var item in Model)
     {
-        <partial name="../Shared/ModelCards/MealModelCard" model="item" />
+        <partial name="../Shared/ModelCards/MenuModelCard" model="item" />
 
     }
 </div>

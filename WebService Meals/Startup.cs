@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -39,8 +40,11 @@ namespace WebService_Meals
 
             services.AddDbContext<MealDbContext>(options =>
             {
-                options.UseSqlServer(Configuration.GetConnectionString("MealDbConnection"));
+                options.UseSqlServer(Configuration.GetConnectionString("MealDbConnection"), b => b.MigrationsAssembly("Infrastructure"));
             });
+
+            services.AddDefaultIdentity<Cook>()
+                .AddEntityFrameworkStores<MealDbContext>();
 
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
@@ -74,6 +78,8 @@ namespace WebService_Meals
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            IdentitySeedData.EnsurePopulated(app);
         }
     }
 }

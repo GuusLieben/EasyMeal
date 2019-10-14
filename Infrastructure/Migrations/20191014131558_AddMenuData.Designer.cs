@@ -4,14 +4,16 @@ using Infrastructure.Meals;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(MealDbContext))]
-    partial class MealDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191014131558_AddMenuData")]
+    partial class AddMenuData
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -98,7 +100,11 @@ namespace Infrastructure.Migrations
                     b.Property<DateTime>("DateValid")
                         .HasColumnName("DateValid");
 
+                    b.Property<int?>("MenuId");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("MenuId");
 
                     b.ToTable("Meals");
 
@@ -127,25 +133,14 @@ namespace Infrastructure.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnName("MenuId")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Meals")
-                        .HasColumnName("Meals");
-
-                    b.Property<DateTime>("Week")
-                        .HasColumnName("Week");
+                    b.Property<DateTime>("Week");
 
                     b.HasKey("Id");
 
                     b.ToTable("Menus");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = -6,
-                            Meals = "[-5]",
-                            Week = new DateTime(2019, 10, 14, 0, 0, 0, 0, DateTimeKind.Local)
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -340,9 +335,9 @@ namespace Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "f2a07c42-e2a6-45ce-8024-b4211eab9ea2",
+                            Id = "b44f9db1-49fd-4c52-8d6a-50de1f3593f7",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "f937054a-7706-4cf7-9cdf-b919c015469f",
+                            ConcurrencyStamp = "ed137c8b-aa5e-4034-9207-dc0e6e0d47dd",
                             Email = "h.d@avans.nl",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
@@ -353,6 +348,13 @@ namespace Infrastructure.Migrations
                             Lastname = "Dekker",
                             Phonenumber = "0612345678"
                         });
+                });
+
+            modelBuilder.Entity("Domain.Meal", b =>
+                {
+                    b.HasOne("Domain.Menu")
+                        .WithMany("Meals")
+                        .HasForeignKey("MenuId");
                 });
 
             modelBuilder.Entity("Domain.MealDishes", b =>

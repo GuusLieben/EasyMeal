@@ -13,33 +13,28 @@ namespace Domain
 
 
         [Key]
-        [Column("MenuId")]
         public int Id { get; set; }
 
         [Column("Meals")]
-        private ICollection<Meal> _meals;
+        [ForeignKey("MealId")]
+        public ICollection<Int32> Meals { get; set; }
 
         [Column("Week")]
         [DataType(DataType.DateTime)]
-        private DateTime _week;
+        public DateTime Week { get; set; }
 
-        public DateTime Week
+
+        public Menu(List<Int32> meals, DateTime Week)
         {
-            get { return _week;  }
-            set { this._week = value;  }
+            //if (meals.IsValid())
+            //{
+                this.Meals = meals;
+                this.Week = Week;
+            //}
+            //else throw new ArgumentException("Menu should be for one whole week (7 days), start on a Monday, and end on a Sunday");
         }
 
-        public Menu(List<Meal> meals, DateTime Week)
-        {
-            if (meals.IsValid())
-            {
-                this._meals = meals;
-                this._week = Week;
-            }
-            else throw new ArgumentException("Menu should be for one whole week (7 days), start on a Monday, and end on a Sunday");
-        }
-
-        public Menu(int id, ICollection<Meal> meals, DateTime week)
+        public Menu(int id, ICollection<Int32> meals, DateTime week)
         {
             Id = id;
             Meals = meals;
@@ -49,13 +44,6 @@ namespace Domain
         public Menu()
         {
         }
-
-        public ICollection<Meal> Meals
-        {
-            get { return this._meals; }
-            set { if (value.IsValid()) this._meals = value; }
-        }
-
     }
 
     public static class WeekMenuEM

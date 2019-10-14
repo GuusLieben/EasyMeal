@@ -15,9 +15,9 @@ namespace Domain
 
         public Meal(DateTime dateValid)
         {
-            
-                DateValid = dateValid;
-            
+
+            DateValid = dateValid;
+
         }
 
         [Key]
@@ -32,4 +32,5 @@ namespace Domain
         [Display(Name ="Date Valid")]
         public DateTime DateValid { get; set; }
     }
+
 }

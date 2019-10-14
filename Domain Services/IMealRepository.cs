@@ -8,6 +8,10 @@ namespace Domain.Services
 {
     public interface IMealServiceRepository
     {
+        Boolean CreateDish(Dish dish);
+
+        Meal GetMeal(int id);
+
         IEnumerable<Meal> GetAllMealOptions();
 
         IEnumerable<Meal> GetAllMealOptionsForWeek(int week, int year);
@@ -19,8 +23,9 @@ namespace Domain.Services
         IEnumerable<Dish> GetAllDishes();
 
         IEnumerable<Dish> GetAllDishesForMeal(Meal meal);
-
+        IEnumerable<Menu> GetAllMenus();
         IEnumerable<Dish> GetAllDishesForMeal(int mealId);
-        Meal GetMeal(int id);
+        Boolean DeleteDish(int id);
+        Boolean EditDish(Dish model);
     }
 }
