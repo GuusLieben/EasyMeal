@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Infrastructure.Orders
 {
-    class EFOrderRepository : IOrderRepository
+    public class EFOrderRepository : IOrderRepository
     {
     }
 }

@@ -1,0 +1,30 @@
+﻿<div class="column is-6 is-4-desktop">
+
+    <div class="c-card is-sample is-padded ">
+
+        <a asp-action="Edit" asp-controller="Meal" asp-route-id="@Model.Id">
+            <span class="c-badge o-small o-highlight">Edit</span>
+        </a>
+
+        <a asp-action="Detail" asp-controller="Meal" asp-route-id="@Model.Id">
+            <div class="r-image" style="display: none;">
+            </div>
+            <div class="r-header ">
+                <div>
+                    <h3>@Model.DateValid.ToLongDateString()</h3>
+                    <h4>@Model.DateValid.ToShortDateString()</h4>
+                </div>
+            </div>
+        </a>
+
+        
+        <div class="r-footer">
+            <ul class="tag-list">
+                @if (ViewData["Hide"] == null)
+                {
+                    <li><span class="c-tag">@Model.Dishes.Count / 3 Dishes</span></li>
+                }
+                </ul>
+        </div>
+    </div>
+</div>

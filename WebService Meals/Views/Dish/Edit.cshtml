@@ -1,0 +1,68 @@
+﻿@model Domain.Dish
+
+@{
+    ViewData["Title"] = "View";
+
+}
+
+<h4>Dish</h4>
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        
+
+            <form asp-action="Edit">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Name" class="control-label"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Description" class="control-label"></label>
+                    <input asp-for="Description" class="form-control" />
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ImageUri" class="control-label"></label>
+                    <input asp-for="ImageUri" class="form-control" />
+                    <span asp-validation-for="ImageUri" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="DietRestrictions" class="control-label"></label>
+                    <input asp-for="DietRestrictions" class="form-control" value="@String.Join(", ", Model.DietRestrictions.ToArray())" />
+                    <span asp-validation-for="DietRestrictions" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Price" class="control-label"></label> (€)
+                    <input type="number" min=0 step="0.01" asp-for="Price" class="form-control" value="@Model.Price" />
+                    <span asp-validation-for="Price" class="text-danger"></span> 
+                </div>
+                <div class="form-group">
+                    <label asp-for="DishType" class="control-label"></label>
+                    <select asp-for="DishType" class="form-control">
+                        @foreach (var opt in Enum.GetValues(typeof(Domain.DishType)))
+                        {
+                            if (opt.Equals(Model.DishType))
+                            {
+                                <option selected value="@opt">@opt</option>
+                            }
+                            else
+                            {
+                                <option value="@opt">@opt</option>
+                            }
+                        }
+                    </select>
+                    <span asp-validation-for="DishType" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input formmethod="post" class="btn btn-info" type="submit" value="Save" />
+                    <a style="margin-left: 50px;" class="btn btn-danger" asp-action="Delete" asp-route-id="@Model.Id">Delete</a>
+                </div>
+            </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

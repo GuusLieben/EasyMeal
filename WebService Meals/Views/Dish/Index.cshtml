@@ -1,0 +1,23 @@
+﻿@model IEnumerable<Domain.Dish>
+
+@{
+    ViewData["Title"] = "Dishes";
+    ViewData["Results"] = Model.Count();
+}
+
+
+<partial name="../Shared/IndexHeader" />
+
+
+
+<div id="" class="card-list columns is-multiline is-marginless">
+
+
+
+    @foreach (var item in Model)
+    {
+        <partial name="../Shared/ModelCards/DishModelCard" model="item"/>
+        
+        
+    }
+</div>

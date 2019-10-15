@@ -1,0 +1,25 @@
+﻿<div class="column is-6 is-4-desktop">
+    <div class="c-card is-sample is-padded ">
+        
+        
+        <a asp-action="Detail" asp-route-id="@Model.Id">
+            <div class="r-image" style="display: none;">
+            </div>
+            <div class="r-header ">
+                <div>
+                    <h3>Menu CW @Domain.WeekMenuEM.Week(Model.Week) - @Model.Week.Year</h3>
+                    <h4>@Model.Meals.Count meal(s)</h4>
+                </div>
+            </div>
+            <div class="r-body">
+                <!--<p class="can-truncate-2"></p>-->
+            </div>
+        </a>
+
+        <div class="r-footer">
+            <ul class="tag-list">
+                <!--<li><span class="c-tag"></span></li>-->
+            </ul>
+        </div>
+    </div>
+</div>

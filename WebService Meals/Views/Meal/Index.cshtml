@@ -1,0 +1,25 @@
+﻿@model SortedDictionary<int, List<Domain.Meal>>
+
+@{
+    ViewData["Title"] = "Meals";
+    ViewData["Results"] = Model.Count();
+}
+
+<partial name="../Shared/IndexHeader" />
+
+
+
+
+
+@foreach (var week in Model)
+{
+    <h3 style="margin-top: 10px; margin-bottom:5px;">Week @week.Key</h3>
+    <h5 style="color: gray">@Domain.WeekMenuEM.StartOfWeek(week.Value.First().DateValid, DayOfWeek.Monday).ToLongDateString() - @Domain.WeekMenuEM.StartOfWeek(week.Value.First().DateValid.AddDays(7), DayOfWeek.Sunday).ToLongDateString()</h5>
+    <hr style="margin-bottom: 5px;"/>
+    <div id="" class="card-list columns is-multiline is-marginless">
+        @foreach (var meal in week.Value)
+        {
+            <partial name="../Shared/ModelCards/MealModelCard" model="meal" />
+        }
+    </div>
+}

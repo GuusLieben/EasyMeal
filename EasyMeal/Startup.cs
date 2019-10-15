@@ -10,6 +10,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Infrastructure.Meals;
+using Microsoft.EntityFrameworkCore;
+using Domain.Services;
+using Infrastructure.Orders;
 
 namespace EasyMeal
 {
@@ -25,7 +29,15 @@ namespace EasyMeal
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<MealDbContext>(options =>
+            {
+                options.UseSqlServer(Configuration.GetConnectionString("MealDbConnection"));
+            });
+
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddScoped<IMealServiceRepository, EFMealServiceRepository>();
+            services.AddScoped<IOrderRepository, EFOrderRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
