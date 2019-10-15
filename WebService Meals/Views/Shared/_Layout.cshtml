@@ -20,7 +20,7 @@
     <div class="sub-nav-bar">
         <nav class="breadcrumb container is-fullhd has-med-x-padding" aria-label="breadcrumbs">
             <ul class="">
-                <li><a href="index.html">Home</a></li>
+                <li><a>Home</a></li>
                 <li class="is-active"><a href="#" aria-current="page">Administration</a></li>
             </ul>
         </nav>
@@ -71,11 +71,6 @@
                             @{
                                 if (User.Identity.IsAuthenticated)
                                 {
-
-                                    <div class="c-drawer">
-                                        <button onclick="location.href='@Url.Action("Index", "Menu")'" class="c-glyph closed navbtn" aria-expanded="true" aria-controls="">Menus</button>
-                                    </div>
-                                    <hr class="c-divider">
                                     <div class="c-drawer">
                                         <button onclick="location.href='@Url.Action("Index", "Meal")'" class="c-glyph closed navbtn" aria-expanded="true" aria-controls="">Meals</button>
                                     </div>

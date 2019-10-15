@@ -1,4 +1,4 @@
-﻿@model Domain.Meal
+﻿@model WebService_Meals.Models.CreateMealModel
 
 @{
     ViewData["Title"] = "Edit";
@@ -7,20 +7,74 @@
 
 <h1>Edit</h1>
 
-<h4>Meal</h4>
+<h4>Meal : @Model.Id</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
             <div class="form-group">
-                <label asp-for="DateValid" class="control-label"></label>
-                <input asp-for="DateValid" class="form-control" />
+                <label asp-for="DateValid" class="control-label">Date</label>
+                <input type="date" asp-for="DateValid" class="form-control" readonly="readonly"/>
                 <span asp-validation-for="DateValid" class="text-danger"></span>
             </div>
+
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <label asp-for="StarterId" class="control-label">Starter</label>
+                <select asp-for="StarterId" class="form-control">
+                    @foreach (var opt in ViewBag.Starters)
+                    {
+                        if (opt.Id == Model.StarterId)
+                        {
+                            <option selected value="@opt.Id">#@opt.Id : @opt.Name</option>
+                        } else { 
+                            <option value="@opt.Id">#@opt.Id : @opt.Name</option>
+                        }
+                    }
+                </select>
+                <span asp-validation-for="StarterId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MainId" class="control-label">Main</label>
+                <select asp-for="MainId" class="form-control">
+                    @foreach (var opt in ViewBag.Mains)
+                    {
+                        if (opt.Id == Model.MainId)
+                        {
+                            <option selected value="@opt.Id">#@opt.Id : @opt.Name</option>
+                        }
+                        else
+                        {
+                            <option value="@opt.Id">#@opt.Id : @opt.Name</option>
+                        }
+                    }
+                </select>
+                <span asp-validation-for="MainId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DessertId" class="control-label">Dessert</label>
+                <select asp-for="DessertId" class="form-control">
+                    @foreach (var opt in ViewBag.Desserts)
+                    {
+                        if (opt.Id == Model.DessertId)
+                        {
+                            <option selected value="@opt.Id">#@opt.Id : @opt.Name</option>
+                        }
+                        else
+                        {
+                            <option value="@opt.Id">#@opt.Id : @opt.Name</option>
+                        }
+                    }
+                </select>
+                <span asp-validation-for="DessertId" class="text-danger"></span>
+            </div>
+            <select asp-for="Id" class="form-control">
+                <option selected value="@Model.Id">@Model.Id</option>
+            </select>
+            <br />
+            <div class="form-group">
+                <input formmethod="post" class="btn btn-info" type="submit" value="Save" />
+                <a style="margin-left: 50px;" class="btn btn-danger" asp-action="Delete" asp-route-id="@Model.Id">Delete</a>
             </div>
         </form>
     </div>

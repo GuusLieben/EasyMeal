@@ -1,17 +1,13 @@
 ﻿<div class="column is-6 is-4-desktop">
     <div class="c-card is-sample is-padded ">
         
-        <a asp-action="Edit" asp-route-id="@Model.Id">
-            <span class="c-badge o-small o-highlight">Edit</span>
-        </a>
         
         <a asp-action="Detail" asp-route-id="@Model.Id">
             <div class="r-image" style="display: none;">
             </div>
             <div class="r-header ">
                 <div>
-                    <h3>Menu CW @Domain.WeekMenuEM.Week(Model.Week) - @Model.Week.Year  @if (Model.Meals.Count < 7)
-                                        {<b>⚠️</b>}</h3>
+                    <h3>Menu CW @Domain.WeekMenuEM.Week(Model.Week) - @Model.Week.Year</h3>
                     <h4>@Model.Meals.Count meal(s)</h4>
                 </div>
             </div>

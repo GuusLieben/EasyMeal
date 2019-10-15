@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Domain;
 using Domain.Services;
+using Infrastructure.Meals;
 using Infrastructure.Orders;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -13,6 +14,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Services;
 
 namespace WebService_Orders
 {
@@ -40,11 +42,17 @@ namespace WebService_Orders
                 options.UseSqlServer(Configuration.GetConnectionString("OrderDbConnection"), b => b.MigrationsAssembly("Infrastructure"));
             });
 
+            services.AddDbContext<MealDbContext>(options =>
+            {
+                options.UseSqlServer(Configuration.GetConnectionString("MealDbConnection"), b => b.MigrationsAssembly("Infrastructure"));
+            });
+
             services.AddDefaultIdentity<Client>()
                 .AddEntityFrameworkStores<OrderDbContext>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddScoped<IOrderRepository, EFOrderRepository>();
+            services.AddScoped<IReadOnlyRepository, EFReadOnlyRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

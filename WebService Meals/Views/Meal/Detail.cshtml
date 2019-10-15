@@ -12,11 +12,22 @@
         <li class="readingTime">@Model.DateValid.ToShortDateString() - Week @Domain.WeekMenuEM.Week(Model.DateValid)</li>
     </ul>
     <div style="margin-top: 25px">
-        @foreach (var dish in ViewBag.Dishes)
-        {
-            <h5>@dish.DishType : @dish.Name</h5>
-            <p><em>@dish.Description</em></p>
-            <br />
+        @{
+            if (ViewBag.Dishes.Length == 0)
+            {
+                <h5>None</h5>
+            }
+            else
+            {
+                @foreach (var dish in ViewBag.Dishes)
+                {
+                    if (dish != null) { 
+                    <h5>@dish.DishType : @dish.Name</h5>
+                    <p><em>@dish.Description</em></p>
+                    <br />
+                    }
+                }
+            }
         }
     </div>
     <br />
@@ -25,4 +36,5 @@
 </div>
 <div>
     <a class="btn btn-info" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+    <a style="margin-left: 50px;" class="btn btn-danger" asp-action="Delete" asp-route-id="@Model.Id">Delete</a>
 </div>

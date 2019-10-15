@@ -5,6 +5,7 @@ using System.Linq;
 using Domain;
 using Domain.Services;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 
 namespace Infrastructure.Meals
 {
@@ -26,6 +27,7 @@ namespace Infrastructure.Meals
             {
                 context.Add(dish);
                 context.SaveChanges();
+                
                 return true;
             }
             catch (Exception)
@@ -151,18 +153,32 @@ namespace Infrastructure.Meals
         }
 
         // UPDATE
-        public bool EditMeal(Meal meal)
+        public bool EditMeal(Meal meal, Dish[] dishes)
         {
-            try
+            if (dishes.Length == 3)
             {
-                context.Meals.Attach(meal);
-                context.Update(meal);
-                context.SaveChanges();
-                return true;
-            } catch (Exception)
-            {
-                return false;
+                IEnumerable<MealDishes> mealDishes = context.MealDishes.Where(md => md.MealId == meal.Id);
+                
+                mealDishes.ToList().ForEach(md =>
+                {
+                    md.Dish = GetDish(md.DishId);
+                    md.Meal = GetMeal(md.MealId);
+                    context.Remove(md);
+                });
+
+                try
+                {
+                    foreach (Dish dish in dishes)
+                    {
+                        context.Add(new MealDishes { Dish = dish, Meal = meal, Id = meal.Id + 1 });
+                    }
+
+                    context.SaveChanges();
+                    return true;
+                }
+                catch (Exception) { }
             }
+            return false;
         }
 
         // DELETE
@@ -174,6 +190,12 @@ namespace Infrastructure.Meals
                 if (meal == null) return false;
                 else
                 {
+                    context.MealDishes.Where(md => md.MealId == Id).ToList().ForEach(md =>
+                    {
+                        md.Dish = GetDish(md.DishId);
+                        md.Meal = GetMeal(md.MealId);
+                        context.Remove(md);
+                    });
                     context.Remove(meal);
                     context.SaveChanges();
                     return true;

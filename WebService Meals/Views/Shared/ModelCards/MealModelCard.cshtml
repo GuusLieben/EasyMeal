@@ -2,11 +2,11 @@
 
     <div class="c-card is-sample is-padded ">
 
-        <a asp-action="Edit" asp-route-id="@Model.Id">
+        <a asp-action="Edit" asp-controller="Meal" asp-route-id="@Model.Id">
             <span class="c-badge o-small o-highlight">Edit</span>
         </a>
 
-        <a asp-action="Detail" asp-route-id="@Model.Id">
+        <a asp-action="Detail" asp-controller="Meal" asp-route-id="@Model.Id">
             <div class="r-image" style="display: none;">
             </div>
             <div class="r-header ">
@@ -17,14 +17,14 @@
             </div>
         </a>
 
+        
         <div class="r-footer">
             <ul class="tag-list">
-                <li><span class="c-tag">@Model.Dishes.Count / 3 Dishes</span></li>
-                <!-- foreach (var dish in ViewBag.AssociatedDishes.Find(t => t.Item1 == Model.Id))
-     {
-         <li><span class="c-tag">dish.Dish.Name</span></li>
-     }-->
-            </ul>
+                @if (ViewData["Hide"] == null)
+                {
+                    <li><span class="c-tag">@Model.Dishes.Count / 3 Dishes</span></li>
+                }
+                </ul>
         </div>
     </div>
 </div>

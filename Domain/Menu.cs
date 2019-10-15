@@ -54,6 +54,12 @@ namespace Domain
             return cal.GetWeekOfYear(date, CalendarWeekRule.FirstDay, DayOfWeek.Monday);
         }
 
+        public static DateTime StartOfWeek(this DateTime dt, DayOfWeek startOfWeek)
+        {
+            int diff = (7 + (dt.DayOfWeek - startOfWeek)) % 7;
+            return dt.AddDays(-1 * diff).Date;
+        }
+
         public static Boolean IsValid(this ICollection<Meal> meals)
         {
             if (meals.Count >= 4 && meals.Count <= 7)

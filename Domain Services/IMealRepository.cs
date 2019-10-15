@@ -18,6 +18,7 @@ namespace Domain.Services
         Dish GetDish(int Id);
         IEnumerable<Dish> GetAllDishes();
         IEnumerable<Dish> GetAllDishesForMeal(Meal meal);
+
         IEnumerable<Dish> GetAllDishesForMeal(int mealId);
 
         
@@ -40,7 +41,7 @@ namespace Domain.Services
         
 
         // UPDATE
-        bool EditMeal(Meal meal);
+        bool EditMeal(Meal meal, Dish[] dishes);
 
         // DELETE
         bool DeleteMeal(int Id);

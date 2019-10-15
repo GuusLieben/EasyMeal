@@ -14,7 +14,6 @@ namespace Infrastructure.Meals
 
         public MealDbContext(DbContextOptions<MealDbContext> options) :base(options)
         {
-
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -25,7 +24,7 @@ namespace Infrastructure.Meals
             modelBuilder.Entity<Dish>().Property(d => d.DietRestrictions).HasConversion(r => JsonConvert.SerializeObject(r), r => JsonConvert.DeserializeObject<List<string>>(r));
             modelBuilder.Entity<Menu>().Property(m => m.Meals).HasConversion(m => JsonConvert.SerializeObject(m), m => JsonConvert.DeserializeObject<List<Int32>>(m));
             // Make it so we have a 'many-to-many' relation between Dish and Meal (aka double one-to-many relations)
-            modelBuilder.Entity<MealDishes>().HasKey(md => new { md.MealId, md.DishId });
+            modelBuilder.Entity<MealDishes>().HasKey(md => new { md.MealId, md.DishId, md.Id });
 
             // Seed data
             // Cooks

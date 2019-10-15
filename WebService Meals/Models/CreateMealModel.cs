@@ -12,5 +12,6 @@ namespace WebService_Meals.Models
         public int StarterId { get; set; }
         public int MainId { get; set; }
         public int DessertId { get; set; }
+        public int Id { get; set; } = -1;
     }
 }
