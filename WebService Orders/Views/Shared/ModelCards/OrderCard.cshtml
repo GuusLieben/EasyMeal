@@ -4,6 +4,7 @@
     double price = 0;
     double shipment = 5.00;
     int amountOfOrders = ViewBag.Orders.Count / 3;
+    double discount = 0.00;
 }
 
 <div class="c-card is-sample is-padded " style="margin-top: -2px; min-height: 500px;">
@@ -30,11 +31,61 @@
                             price += dish.Price;
 
                             <div class="row" style="margin-top: -5px;">
-                                <div class="col-8"><p>@dish.Name </p></div>
+                                <div class="col-8"><p>@dish.Name</p></div>
                                 <div class="col-1"><p>€</p></div>
                                 <div class="col-3 text-right"><p>@String.Format("{0:0.00}", dish.Price)</p></div>
                             </div>
                             <hr />
+                            <div class="row" style="margin-top: -5px;">
+                                <div class="col-8">
+                                    <small style="color: #808080;">
+                                        <em>
+                                            @order.Size @{
+                                                if (order.Size.Equals(Domain.DishSize.Large))
+                                                {
+                                                    <em> (+20%)</em>
+                                                    discount -= 0.2 * dish.Price;
+                                                }
+                                                else if (order.Size.Equals(Domain.DishSize.Small))
+                                                {
+                                                    <em> (-20%)</em>
+                                                    discount += 0.2 * dish.Price;
+                                                }
+                                            }
+                                        </em>
+                                    </small>
+                                </div>
+                                <div class="col-1">
+                                    <small style="color: #808080;">
+                                        @{
+                                            if (order.Size.Equals(Domain.DishSize.Large))
+                                            {
+                                                <em>€</em>
+                                            }
+                                            else if (order.Size.Equals(Domain.DishSize.Small))
+                                            {
+                                                <em>€</em>
+                                            }
+                                        }
+                                    </small>
+                                </div>
+                                <div class="col-3 text-right">
+                                    <small style="color: #808080;">
+                                        @{
+                                            if (order.Size.Equals(Domain.DishSize.Large))
+                                            {
+                                                double amount = 0.2 * dish.Price;
+                                                <em>+@String.Format("{0:0.00}", amount)</em>
+                                            }
+                                            else if (order.Size.Equals(Domain.DishSize.Small))
+                                            {
+                                                double amount = 0.2 * dish.Price;
+                                                <em>-@String.Format("{0:0.00}", amount)</em>
+                                            }
+                                        }
+                                    </small>
+                                </div>
+                            </div>
                             <div class="row"></div>
                             i++;
                         }
@@ -50,15 +101,15 @@
     <div class="r-header">
         <div class="container">
             <div class="row">
-                <div class="col-8"><h4>Total :<br />Delivery &amp; processing :</h4></div>
-                <div class="col-1"><p>€<br />€</p></div>
-                <div class="col-3 text-right"><h4>@String.Format("{0:0.00}", price)<br />@String.Format("{0:0.00}", shipment)</h4></div>
+                <div class="col-8"><h4>Total :<br />Delivery &amp; processing :<br /><br />Variating dish sizes :</h4></div>
+                <div class="col-1"><p>€<br />€<br /><br />€</p></div>
+                <div class="col-3 text-right"><h4>@String.Format("{0:0.00}", price)<br />@String.Format("{0:0.00}", shipment)<br /><br />@String.Format("{0:0.00}", 0 - discount)</h4></div>
             </div>
             <div class="row"></div>
             <div class="row">
                 <div class="col-8"><h3>Sub-total :</h3></div>
                 <div class="col-1"><p>€</p></div>
-                <div class="col-3 text-right"><h3>@String.Format("{0:0.00}", price + shipment)</h3></div>
+                <div class="col-3 text-right"><h3>@String.Format("{0:0.00}", price + shipment - discount)</h3></div>
             </div>
             <div class="row">
                 <div class="col-9"><small><em style="line-height: 1.3">Disclaimer : EasyMeal requires all orders to contain at least 4 complete meals.</em></small></div>
