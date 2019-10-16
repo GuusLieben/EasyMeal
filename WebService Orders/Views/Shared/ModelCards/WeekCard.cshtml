@@ -1,0 +1,23 @@
+﻿@{ 
+    var modelDate = Model;
+    var weekNum = Domain.WeekMenuEM.Week(modelDate);
+    var firstDate = Domain.WeekMenuEM.StartOfWeek(modelDate, DayOfWeek.Monday);
+    var lastDate = Domain.WeekMenuEM.StartOfWeek(modelDate.AddDays(7), DayOfWeek.Sunday);
+    var query = "?date=" + modelDate.ToString() + "&year=" + modelDate.Year;
+}
+
+
+<div class="column is-6 is-4-desktop">
+    <div class="c-card is-sample is-padded ">
+        <a asp-action="Menu" asp-controller="Home" asp-route-id="@weekNum">
+            <div class="r-image" style="display: none;">
+            </div>
+            <div class="r-header ">
+                <div>
+                    <h3>Week @weekNum</h3>
+                    <h4>@firstDate.ToLongDateString() - @lastDate.ToLongDateString()</h4>
+                </div>
+            </div>
+        </a>
+    </div>
+</div>

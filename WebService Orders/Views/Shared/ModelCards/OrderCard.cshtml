@@ -1,0 +1,86 @@
+﻿@model Dictionary<DayOfWeek, IEnumerable<DomainModels.ClientOrder>>
+
+@{
+    double price = 0;
+    double shipment = 5.00;
+    int amountOfOrders = ViewBag.Orders.Count / 3;
+}
+
+<div class="c-card is-sample is-padded " style="margin-top: -2px; min-height: 500px;">
+    <div class="r-header">
+        <div style="max-width: 100%;">
+            <h2>Order details</h2>
+            <h3>@amountOfOrders meal(s) ordered</h3>
+
+            <br />
+
+
+            @foreach (var day in Model)
+            {
+                if (day.Value.Count() > 0)
+                {
+                    int i = 0;
+                    var orderedList = day.Value.OrderBy(o => o.DishId);
+                    <h4><b>@day.Key.ToString()</b></h4>
+                    <div class="container" style="max-width: 100%; margin-bottom: 50px;">
+                        @foreach (var order in orderedList)
+                        {
+                            var dish = new Domain.Dish(); ;
+                            ViewBag.OrderedDishes.TryGetValue(order.DishId, out dish);
+                            price += dish.Price;
+
+                            <div class="row" style="margin-top: -5px;">
+                                <div class="col-8"><p>@dish.Name </p></div>
+                                <div class="col-1"><p>€</p></div>
+                                <div class="col-3 text-right"><p>@String.Format("{0:0.00}", dish.Price)</p></div>
+                            </div>
+                            <hr />
+                            <div class="row"></div>
+                            i++;
+                        }
+                        <em>@{ i /= 3; } Total : @i meal(s)</em>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+    <br />
+</div>
+<div class="c-card is-sample is-padded " style="margin-top: -2px;">
+    <div class="r-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-8"><h4>Total :<br />Delivery &amp; processing :</h4></div>
+                <div class="col-1"><p>€<br />€</p></div>
+                <div class="col-3 text-right"><h4>@String.Format("{0:0.00}", price)<br />@String.Format("{0:0.00}", shipment)</h4></div>
+            </div>
+            <div class="row"></div>
+            <div class="row">
+                <div class="col-8"><h3>Sub-total :</h3></div>
+                <div class="col-1"><p>€</p></div>
+                <div class="col-3 text-right"><h3>@String.Format("{0:0.00}", price + shipment)</h3></div>
+            </div>
+            <div class="row">
+                <div class="col-9"><small><em style="line-height: 1.3">Disclaimer : EasyMeal requires all orders to contain at least 4 complete meals.</em></small></div>
+                <div class="col-3"></div>
+            </div>
+
+        </div>
+
+    </div>
+    <br />
+</div>
+<div class="float-right">
+    @if (amountOfOrders >= 4 && ViewBag.Match)
+    {
+        <button style="min-width: 150px; margin-top: 10px;" class="btn btn-info">
+            Checkout
+        </button>
+    }
+    else
+    {
+        <button style="min-width: 150px; margin-top: 10px;" class="btn btn-info" disabled>
+            Checkout
+        </button>
+    }
+</div>

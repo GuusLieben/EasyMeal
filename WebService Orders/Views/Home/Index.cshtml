@@ -1,8 +1,29 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
+    ViewData["Path"] = new String[]{ "Menu" };
+    var thisWeek = DateTime.Today;
+    DateTime[] weeks = new DateTime[4];
+    for (int i = 0; i < 4; i++)
+    {
+        weeks[i] = DateTime.Today.AddDays(7 * i);
+    }
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+
+<div class="columns is-mobile is-multiline" style="padding-left: 15px; align-items: center; margin-bottom: 0;">
+
+    <div class="column is-12-mobile is-12-tablet is-12-desktop has-text-weight-semibold">
+
+        <br><div style="display: inline;">
+                <h2>For which week do you want to order?</h2>
+        </div>
+    </div>
+
+</div>
+
+<div id="" class="card-list is-list-view is-multiline is-marginless">
+    @foreach (var week in weeks)
+    {
+        <partial name="../Shared/ModelCards/WeekCard" model="week" />
+    }
 </div>

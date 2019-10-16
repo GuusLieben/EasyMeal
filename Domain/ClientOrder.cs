@@ -13,7 +13,7 @@ namespace DomainModels
         public int Id { get; set; }
 
         public Client Client { get; set; }
-        public int MealId { get; set; }
+        public int DishId { get; set; }
         public DateTime Date { get; set; }
         public DishSize Size { get; set; }
     }

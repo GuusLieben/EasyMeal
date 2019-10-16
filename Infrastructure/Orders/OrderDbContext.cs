@@ -28,17 +28,8 @@ namespace Infrastructure.Orders
                 Lastname = "Lieben",
                 Id = "-1"
             };
-            ClientOrder order = new ClientOrder
-            {
-                Client = client,
-                MealId = -5,
-                Date = DateTime.Parse("1/2/2019"),
-                Size = DishSize.Medium,
-                Id = -10
-            };
 
             modelBuilder.Entity<Client>().HasData(client);
-            modelBuilder.Entity<ClientOrder>().HasData(order);
         }
 
         public DbSet<Client> Clients { get; set; }
