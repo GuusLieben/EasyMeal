@@ -4,7 +4,11 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Domain;
+using Domain.Services;
 using DomainModels;
+using Infrastructure.Orders;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -13,17 +17,22 @@ using WebService_Orders.Models;
 
 namespace WebService_Orders.Controllers
 {
+
+    [Authorize]
     public class HomeController : Controller
     {
-        private readonly IReadOnlyRepository _repo;
+        private readonly IReadOnlyRepository _mealRepo;
+        private readonly IOrderRepository _orderRepo;
 
-        public HomeController(IReadOnlyRepository repository)
+        public HomeController(IReadOnlyRepository mealRepository, IOrderRepository orderRepository)
         {
-            this._repo = repository;
+            this._mealRepo = mealRepository;
+            this._orderRepo = orderRepository;
         }
 
         public IActionResult Index()
         {
+            ViewBag.Client = Startup.UserManager.FindByNameAsync(User.Identity.Name).Result;
             return View();
         }
 
@@ -39,7 +48,7 @@ namespace WebService_Orders.Controllers
             var date = WeekMenuEM.StartOfWeek(DateTime.Today.Year, id);
             var firsteDateString = date.StartOfWeek(DayOfWeek.Monday).ToLongDateString();
             var lastDateString = date.AddDays(7).StartOfWeek(DayOfWeek.Sunday).ToLongDateString();
-            var mealsForCurrentWeek = _repo.GetAllMealOptionsForWeek(date.Week(), date.Year).ToList();
+            var mealsForCurrentWeek = _mealRepo.GetAllMealOptionsForWeek(date.Week(), date.Year).ToList();
             var mealsForCurrentWeekSorted = new SortedDictionary<DayOfWeek, List<Meal>>();
 
             mealsForCurrentWeek.ToList().ForEach(meal =>
@@ -65,7 +74,7 @@ namespace WebService_Orders.Controllers
             var dishesPerMeal = new Dictionary<int, IEnumerable<Dish>>();
             mealsForCurrentWeek.ToList().ForEach(meal =>
             {
-                var dishes = _repo.GetAllDishesForMeal(meal);
+                var dishes = _mealRepo.GetAllDishesForMeal(meal);
                 dishesPerMeal.Add(meal.Id, dishes);
             });
 
@@ -79,7 +88,7 @@ namespace WebService_Orders.Controllers
                 
                 orders.ForEach(co => {
                     if (!dishesPresent.ContainsKey(co.DishId)) { 
-                        dishesPresent.Add(co.DishId, _repo.GetDish(co.DishId));
+                        dishesPresent.Add(co.DishId, _mealRepo.GetDish(co.DishId));
                     }
                 });
             }
@@ -114,8 +123,8 @@ namespace WebService_Orders.Controllers
         {
             Debug.WriteLine("[POST] Reached POST");
             var previousOrders = ((JArray)JsonConvert.DeserializeObject(exOrders)).ToObject<List<ClientOrder>>();
-            var meal = _repo.GetMeal(mealId);
-            var dishes = _repo.GetAllDishesForMeal(meal);
+            var meal = _mealRepo.GetMeal(mealId);
+            var dishes = _mealRepo.GetAllDishesForMeal(meal);
             dishes.ToList().ForEach(md =>
             {
                 Debug.WriteLine("[POST] Reached a MD " + md.Id);

@@ -79,7 +79,7 @@ namespace WebService_Meals
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
 
-            IdentitySeedData.EnsurePopulated(app);
+            Infrastructure.Meals.IdentitySeedData.EnsurePopulated(app);
         }
     }
 }

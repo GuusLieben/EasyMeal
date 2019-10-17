@@ -52,19 +52,29 @@
         </nav>
         <div class="action-bar">
             <ul class="action-list">
-                <li class="is-unstyle-action-list-item">
-                    <div class="dropdown has-caret" auto-align="">
-                        <button class="dropdown-trigger button is-text is-small is-icon-only-touch" aria-controls="theme-menu" aria-expanded="false" title="My Orders">
-                            <span class="icon">
-                                <i class="fas fa-utensils"></i>
-                            </span>
-                            <span class="action-item-text is-hidden-portrait">My Orders</span>
-                        </button>
-                    </div>
-                </li>
-                <li class="is-unstyled-action-list-item">
-                    <a class="docs-sign-in auth-status-determined not-authenticated button is-text has-text-primary is-small" href="#">Sign Out</a>
-                </li>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <li class="is-unstyle-action-list-item">
+                        <div class="dropdown has-caret" auto-align="">
+                            <button class="dropdown-trigger button is-text is-small is-icon-only-touch" aria-controls="theme-menu" aria-expanded="false" title="My Orders">
+                                <span class="icon">
+                                    <i class="fas fa-utensils"></i>
+                                </span>
+                                <span class="action-item-text is-hidden-portrait">My Orders</span>
+                            </button>
+                        </div>
+                    </li>
+                    <li class="is-unstyled-action-list-item">
+                        <a class="docs-sign-in auth-status-determined authenticated button is-text has-text-primary is-small" href="#">Sign Out</a>
+                    </li>
+                }
+                else
+                {
+
+                    <li class="is-unstyled-action-list-item">
+                        <a class="docs-sign-in auth-status-determined not-authenticated button is-text has-text-primary is-small" href="#">Sign In</a>
+                    </li>
+                }
             </ul>
         </div>
     </div>
@@ -94,6 +104,8 @@
     </script>
 
     <script src="https://kit.fontawesome.com/e206531763.js" crossorigin="anonymous"></script>
+
+    @RenderSection("Scripts", required: false)
 
 </body>
 

@@ -10,11 +10,13 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Services;
+
 
 namespace WebService_Orders
 {
@@ -71,6 +73,7 @@ namespace WebService_Orders
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseAuthentication();
             app.UseCookiePolicy();
 
             app.UseMvc(routes =>
@@ -79,6 +82,11 @@ namespace WebService_Orders
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            Infrastructure.Orders.IdentitySeedData.EnsurePopulated(app);
+            UserManager = app.ApplicationServices.CreateScope().ServiceProvider.GetRequiredService<UserManager<Client>>();
         }
+
+        public static UserManager<Client> UserManager { get; set; }
     }
 }

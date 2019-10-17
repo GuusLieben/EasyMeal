@@ -13,6 +13,20 @@ namespace Domain
         {
         }
 
+        public Client(string firstname, string lastname, string email, string phonenumber, string city, string street, int houseNumber, string addition, DateTime birthDate)
+        {
+            Firstname = firstname;
+            Lastname = lastname;
+            Email = email;
+            Phonenumber = phonenumber;
+            UserName = email;
+            City = city;
+            Street = street;
+            HouseNumber = houseNumber;
+            Addition = addition;
+            BirthDate = birthDate;
+        }
+
         public Client(string city, string street, int houseNumber, string addition, DateTime birthDate, ICollection<string> dietRestrictions, ICollection<ClientOrder> orderHistory)
         {
             City = city;
