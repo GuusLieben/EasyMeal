@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace WebService_Meals.Models
+namespace EasyMeal.Web.Meals.Models
 {
     public class CreateMealModel
     {

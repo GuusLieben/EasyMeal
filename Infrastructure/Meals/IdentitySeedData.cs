@@ -1,12 +1,9 @@
-﻿using Domain;
+﻿using EasyMeal.Core.Domain;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace Infrastructure.Meals
+namespace EasyMeal.Infrastructure.Meals
 {
     public static class IdentitySeedData
     {

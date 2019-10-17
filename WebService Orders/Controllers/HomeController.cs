@@ -2,20 +2,15 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
-using Domain;
-using Domain.Services;
-using DomainModels;
-using Infrastructure.Orders;
+using EasyMeal.Core.Domain;
+using EasyMeal.Core.Domain.Services;
+using EasyMeal.Web.Orders.Models;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Services;
-using WebService_Orders.Models;
 
-namespace WebService_Orders.Controllers
+namespace EasyMeal.Web.Orders.Controllers
 {
 
     [Authorize]

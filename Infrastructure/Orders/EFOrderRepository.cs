@@ -1,12 +1,8 @@
-﻿using Domain;
-using Domain.Services;
+﻿using EasyMeal.Core.Domain;
+using EasyMeal.Core.Domain.Services;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace Infrastructure.Orders
+namespace EasyMeal.Infrastructure.Orders
 {
     public class EFOrderRepository : IOrderRepository
     {

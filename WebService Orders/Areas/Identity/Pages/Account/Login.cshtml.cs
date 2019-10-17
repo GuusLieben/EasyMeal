@@ -9,10 +9,10 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
-using Domain;
+using EasyMeal.Core.Domain;
 using System.Diagnostics;
 
-namespace WebService_Orders.Areas.Identity.Pages.Account
+namespace EasyMeal.Web.Orders.Areas.Identity.Pages.Account
 {
     [AllowAnonymous]
     public class LoginModel : PageModel

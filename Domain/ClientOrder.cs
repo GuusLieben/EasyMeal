@@ -1,11 +1,7 @@
-﻿using Domain;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
-namespace DomainModels
+namespace EasyMeal.Core.Domain
 {
     public class ClientOrder
     {

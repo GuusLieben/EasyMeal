@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Domain;
-using Domain.Services;
+using EasyMeal.Core.Domain;
+using EasyMeal.Core.Domain.Services;
+using EasyMeal.Web.Meals.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using WebService_Meals.Models;
 
-namespace WebService_Meals.Controllers
+namespace EasyMeal.Web.Meals.Controllers
 {
     [Authorize]
     public class MealController : Controller

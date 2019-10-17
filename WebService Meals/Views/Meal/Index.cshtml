@@ -1,4 +1,4 @@
-﻿@model SortedDictionary<int, List<Domain.Meal>>
+﻿@model SortedDictionary<int, List<EasyMeal.Core.Domain.Meal>>
 
 @{
     ViewData["Title"] = "Meals";
@@ -10,7 +10,7 @@
 @foreach (var week in Model)
 {
     <h3 style="margin-top: 10px; margin-bottom:5px;">Week @week.Key</h3>
-    <h5 style="color: gray">@Domain.WeekMenuEM.StartOfWeek(week.Value.First().DateValid, DayOfWeek.Monday).ToLongDateString() - @Domain.WeekMenuEM.StartOfWeek(week.Value.First().DateValid.AddDays(7), DayOfWeek.Sunday).ToLongDateString()</h5>
+    <h5 style="color: gray">@EasyMeal.Core.Domain.WeekMenuEM.StartOfWeek(week.Value.First().DateValid, DayOfWeek.Monday).ToLongDateString() - @EasyMeal.Core.Domain.WeekMenuEM.StartOfWeek(week.Value.First().DateValid.AddDays(7), DayOfWeek.Sunday).ToLongDateString()</h5>
     <hr style="margin-bottom: 5px;"/>
     <div id="" class="card-list columns is-multiline is-marginless">
         @foreach (var meal in week.Value)

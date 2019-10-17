@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using Domain;
-using Domain.Services;
-using Services;
+using EasyMeal.Core.Domain;
+using EasyMeal.Core.Domain.Services;
 
-namespace Infrastructure.Meals
+namespace EasyMeal.Infrastructure.Meals
 {
     public class EFReadOnlyRepository : IReadOnlyRepository
     {

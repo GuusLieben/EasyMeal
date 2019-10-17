@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Domain.Meal>
+﻿@model IEnumerable<EasyMeal.Core.Domain.Meal>
 
 @{
     ViewData["Title"] = "Menu";
@@ -9,7 +9,7 @@
     {
         showMeals = false;
     }
-    bool matchesWeek = Domain.WeekMenuEM.Week(DateTime.Today).ToString().Equals(ViewBag.WeekNumber);
+    bool matchesWeek = EasyMeal.Core.Domain.WeekMenuEM.Week(DateTime.Today).ToString().Equals(ViewBag.WeekNumber);
     ViewBag.Match = matchesWeek;
 }
 

@@ -1,7 +1,7 @@
-﻿@model Domain.Meal
+﻿@model EasyMeal.Core.Domain.Meal
 
 @{
-    IEnumerable<Domain.Dish> list = null;
+    IEnumerable<EasyMeal.Core.Domain.Dish> list = null;
     ViewBag.DishesPerMeal.TryGetValue(Model.Id, out list);
     ViewData["ParentId"] = Model.Id;
 }
@@ -50,9 +50,9 @@
                             <h3>Size : </h3>
                             
                             <select class="form-control" name="@dish.DishType.ToString(Layout)Size">
-                                @foreach (var opt in Enum.GetValues(typeof(Domain.DishSize)))
+                                @foreach (var opt in Enum.GetValues(typeof(EasyMeal.Core.Domain.DishSize)))
                                 {
-                                    if (opt.Equals(Domain.DishSize.Medium))
+                                    if (opt.Equals(EasyMeal.Core.Domain.DishSize.Medium))
                                     {
                                         <option name="@dish.DishType.ToString().ToLower()size" selected value="@opt.ToString()">@opt</option>
                                     }

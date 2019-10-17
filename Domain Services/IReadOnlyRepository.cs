@@ -1,9 +1,7 @@
-﻿using Domain;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
-namespace Services
+namespace EasyMeal.Core.Domain.Services
 {
     public interface IReadOnlyRepository
     {

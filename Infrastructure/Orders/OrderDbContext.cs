@@ -1,14 +1,11 @@
-﻿using Domain;
-using DomainModels;
+﻿using EasyMeal.Core.Domain;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
-namespace Infrastructure.Orders
+namespace EasyMeal.Infrastructure.Orders
 {
     public class OrderDbContext : IdentityDbContext
     {

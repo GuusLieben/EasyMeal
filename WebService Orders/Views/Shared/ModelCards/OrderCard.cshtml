@@ -1,4 +1,4 @@
-﻿@model Dictionary<DayOfWeek, IEnumerable<DomainModels.ClientOrder>>
+﻿@model Dictionary<DayOfWeek, IEnumerable<EasyMeal.Core.Domain.ClientOrder>>
 
 @{
     double price = 0;
@@ -26,7 +26,7 @@
                     <div class="container" style="max-width: 100%; margin-bottom: 50px;">
                         @foreach (var order in orderedList)
                         {
-                            var dish = new Domain.Dish(); ;
+                            var dish = new EasyMeal.Core.Domain.Dish(); ;
                             ViewBag.OrderedDishes.TryGetValue(order.DishId, out dish);
                             price += dish.Price;
 
@@ -41,12 +41,12 @@
                                     <small style="color: #808080;">
                                         <em>
                                             @order.Size @{
-                                                if (order.Size.Equals(Domain.DishSize.Large))
+                                                if (order.Size.Equals(EasyMeal.Core.Domain.DishSize.Large))
                                                 {
                                                     <em> (+20%)</em>
                                                     discount -= 0.2 * dish.Price;
                                                 }
-                                                else if (order.Size.Equals(Domain.DishSize.Small))
+                                                else if (order.Size.Equals(EasyMeal.Core.Domain.DishSize.Small))
                                                 {
                                                     <em> (-20%)</em>
                                                     discount += 0.2 * dish.Price;
@@ -58,11 +58,11 @@
                                 <div class="col-1">
                                     <small style="color: #808080;">
                                         @{
-                                            if (order.Size.Equals(Domain.DishSize.Large))
+                                            if (order.Size.Equals(EasyMeal.Core.Domain.DishSize.Large))
                                             {
                                                 <em>€</em>
                                             }
-                                            else if (order.Size.Equals(Domain.DishSize.Small))
+                                            else if (order.Size.Equals(EasyMeal.Core.Domain.DishSize.Small))
                                             {
                                                 <em>€</em>
                                             }
@@ -72,12 +72,12 @@
                                 <div class="col-3 text-right">
                                     <small style="color: #808080;">
                                         @{
-                                            if (order.Size.Equals(Domain.DishSize.Large))
+                                            if (order.Size.Equals(EasyMeal.Core.Domain.DishSize.Large))
                                             {
                                                 double amount = 0.2 * dish.Price;
                                                 <em>+@String.Format("{0:0.00}", amount)</em>
                                             }
-                                            else if (order.Size.Equals(Domain.DishSize.Small))
+                                            else if (order.Size.Equals(EasyMeal.Core.Domain.DishSize.Small))
                                             {
                                                 double amount = 0.2 * dish.Price;
                                                 <em>-@String.Format("{0:0.00}", amount)</em>

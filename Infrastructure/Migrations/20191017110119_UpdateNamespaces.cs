@@ -2,9 +2,9 @@
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Infrastructure.Migrations.OrderDb
+namespace Infrastructure.Migrations
 {
-    public partial class Initial : Migration
+    public partial class UpdateNamespaces : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -45,17 +45,57 @@ namespace Infrastructure.Migrations.OrderDb
                     FirstName = table.Column<string>(nullable: true),
                     LastName = table.Column<string>(nullable: true),
                     PhoneNumber = table.Column<string>(nullable: true),
-                    Hash = table.Column<string>(nullable: true),
-                    City = table.Column<string>(maxLength: 64, nullable: true),
-                    Street = table.Column<string>(maxLength: 64, nullable: true),
-                    HouseNumber = table.Column<int>(nullable: true),
-                    HNAddition = table.Column<string>(nullable: true),
-                    Birthdate = table.Column<DateTime>(nullable: true),
-                    DietRestrictions = table.Column<string>(nullable: true)
+                    Hash = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Dishes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(nullable: false),
+                    Description = table.Column<string>(nullable: false),
+                    ImageUri = table.Column<string>(nullable: false),
+                    DietRestrictions = table.Column<string>(nullable: true),
+                    DishSize = table.Column<int>(nullable: false),
+                    Price = table.Column<double>(nullable: false),
+                    Type = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Dishes", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Meals",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    DateValid = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Meals", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Menus",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Meals = table.Column<string>(nullable: true),
+                    Week = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Menus", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -165,26 +205,54 @@ namespace Infrastructure.Migrations.OrderDb
                 });
 
             migrationBuilder.CreateTable(
-                name: "Orders",
+                name: "MealDishes",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    ClientId = table.Column<string>(nullable: true),
-                    MealId = table.Column<int>(nullable: false),
-                    Date = table.Column<DateTime>(nullable: false),
-                    Size = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(nullable: false),
+                    DishId = table.Column<int>(nullable: false),
+                    MealId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Orders", x => x.Id);
+                    table.PrimaryKey("PK_MealDishes", x => new { x.MealId, x.DishId, x.Id });
                     table.ForeignKey(
-                        name: "FK_Orders_AspNetUsers_ClientId",
-                        column: x => x.ClientId,
-                        principalTable: "AspNetUsers",
+                        name: "FK_MealDishes_Dishes_DishId",
+                        column: x => x.DishId,
+                        principalTable: "Dishes",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_MealDishes_Meals_MealId",
+                        column: x => x.MealId,
+                        principalTable: "Meals",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUsers",
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Discriminator", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "IdentityUser_PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName", "FirstName", "LastName", "Hash", "PhoneNumber" },
+                values: new object[] { "7a51b638-5b2b-4e42-bba3-a9a7e583236b", 0, "5036e27c-d22b-4f9f-abe6-c88514d78d14", "Cook", "h.d@avans.nl", false, false, null, null, null, null, null, false, null, false, "h.d@avans.nl", "Henk", "Dekker", null, "0612345678" });
+
+            migrationBuilder.InsertData(
+                table: "Dishes",
+                columns: new[] { "Id", "Description", "DietRestrictions", "DishSize", "Type", "ImageUri", "Name", "Price" },
+                values: new object[,]
+                {
+                    { -3, "A dish of meat or fish, thinly sliced or pounded thin, and served raw", "[]", 0, 0, "google.com", "Carpaccio", 5.7999999999999998 },
+                    { -4, "A steak cut of beef taken from the smaller end of the tenderloin, or psoas major of the cow carcass", "[]", 1, 1, "google.com", "Filet Mignons", 28.300000000000001 },
+                    { -2, "Moist, delicious layer cake with caramel icing", "[\"No salt\"]", 1, 2, "google.com", "Salted Caramel Cake", 3.9500000000000002 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Meals",
+                columns: new[] { "Id", "DateValid" },
+                values: new object[] { -5, new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.InsertData(
+                table: "Menus",
+                columns: new[] { "Id", "Meals", "Week" },
+                values: new object[] { -6, "[-5]", new DateTime(2019, 10, 17, 0, 0, 0, 0, DateTimeKind.Local) });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -226,9 +294,9 @@ namespace Infrastructure.Migrations.OrderDb
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Orders_ClientId",
-                table: "Orders",
-                column: "ClientId");
+                name: "IX_MealDishes_DishId",
+                table: "MealDishes",
+                column: "DishId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -249,13 +317,22 @@ namespace Infrastructure.Migrations.OrderDb
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Orders");
+                name: "MealDishes");
+
+            migrationBuilder.DropTable(
+                name: "Menus");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Dishes");
+
+            migrationBuilder.DropTable(
+                name: "Meals");
         }
     }
 }

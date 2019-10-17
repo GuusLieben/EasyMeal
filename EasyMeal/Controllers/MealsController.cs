@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Domain;
-using Domain.Services;
+using EasyMeal.Core.Domain;
+using EasyMeal.Core.Domain.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace MealAPI.Controllers
+namespace EasyMeal.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
