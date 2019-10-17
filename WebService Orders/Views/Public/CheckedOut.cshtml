@@ -1,0 +1,24 @@
+﻿@model Dictionary<DayOfWeek, IEnumerable<EasyMeal.Core.Domain.ClientOrder>>
+
+@{
+    ViewData["Title"] = "CheckedOut";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Path"] = new String[] { "Menu", "Week", ViewBag.WeekNumber ?? "Unknown", "Checkout" };
+    ViewBag.Checkout = false;
+}
+
+<div class="container" style="margin-top: 100px;">
+    <div class="row">
+        <div class="col text-center">
+            <h1>You successfully checked out!</h1>
+            <h4>Your bill for week @ViewBag.WeekNumber will automatically appear on the end of the month.</h4>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-4"></div>
+        <div class="col-4">
+            <partial name="../Shared/ModelCards/OrderCard" model="Model" />
+        </div>
+        <div class="col-4"></div>
+    </div>
+</div>

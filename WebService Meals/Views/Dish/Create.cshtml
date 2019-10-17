@@ -16,54 +16,54 @@
             <p>Name : @Model.Name</p>
         }
 
-        <form id="dish" method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ImageUri" class="control-label"></label>
-                <input asp-for="ImageUri" class="form-control" />
-                <span asp-validation-for="ImageUri" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DietRestrictions" class="control-label"></label>
-                <input asp-for="DietRestrictions" class="form-control" />
-                <span asp-validation-for="DietRestrictions" class="text-danger"></span>
-            </div>
-            <div class="form-group" style="display: none;">
-                <label asp-for="DishSize" class="control-label"></label>
-                <select asp-for="DishSize" class="form-control">
-                    <option value="@EasyMeal.Core.Domain.DishSize.Medium">@EasyMeal.Core.Domain.DishSize.Medium</option>
-                </select>
-                <span asp-validation-for="DishSize" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Price" class="control-label"></label>
-                <input asp-for="Price" class="form-control" />
-                <span asp-validation-for="Price" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DishType" class="control-label"></label>
-                <select asp-for="DishType" class="form-control">
-                    @foreach (var opt in Enum.GetValues(typeof(EasyMeal.Core.Domain.DishType)))
-                    {
-                        <option value="@opt">@opt</option>
-                    }
-                </select>
-                <span asp-validation-for="DishType" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+    <form asp-action="Create" enctype="multipart/form-data" id="dish" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="Name" class="control-label"></label>
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Description" class="control-label"></label>
+            <input asp-for="Description" class="form-control" />
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="DietRestrictions" class="control-label"></label>
+            <input asp-for="DietRestrictions" class="form-control" />
+            <span asp-validation-for="DietRestrictions" class="text-danger"></span>
+        </div>
+        <div class="form-group" style="display: none;">
+            <label asp-for="DishSize" class="control-label"></label>
+            <select asp-for="DishSize" class="form-control">
+                <option value="@EasyMeal.Core.Domain.DishSize.Medium">@EasyMeal.Core.Domain.DishSize.Medium</option>
+            </select>
+            <span asp-validation-for="DishSize" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Price" class="control-label"></label>
+            <input asp-for="Price" class="form-control" />
+            <span asp-validation-for="Price" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Image" class="control-label"></label>
+            <input type="hidden" name="MAX_FILE_SIZE" value="2000" />
+            <input asp-for="Image" type="file" class="form-control btn btn-dark" accept=".jpg,.jpeg" />
+        </div>
+        <div class="form-group">
+            <label asp-for="DishType" class="control-label"></label>
+            <select asp-for="DishType" class="form-control">
+                @foreach (var opt in Enum.GetValues(typeof(EasyMeal.Core.Domain.DishType)))
+                {
+                    <option value="@opt">@opt</option>
+                }
+            </select>
+            <span asp-validation-for="DishType" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Create" class="btn btn-primary" />
+        </div>
+    </form>
     </div>
 </div>
 

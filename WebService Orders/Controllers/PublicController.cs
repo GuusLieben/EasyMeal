@@ -14,12 +14,12 @@ namespace EasyMeal.Web.Orders.Controllers
 {
 
     [Authorize]
-    public class HomeController : Controller
+    public class PublicController : Controller
     {
         private readonly IReadOnlyRepository _mealRepo;
         private readonly IOrderRepository _orderRepo;
 
-        public HomeController(IReadOnlyRepository mealRepository, IOrderRepository orderRepository)
+        public PublicController(IReadOnlyRepository mealRepository, IOrderRepository orderRepository)
         {
             this._mealRepo = mealRepository;
             this._orderRepo = orderRepository;
@@ -97,8 +97,6 @@ namespace EasyMeal.Web.Orders.Controllers
                 ordersByDay.Add(day, orders.Where(co => co.Date.DayOfWeek.Equals(day)));
             });
 
-
-
             ViewBag.SortedOrders = ordersByDay;
             ViewBag.OrderedDishes = dishesPresent;
             
@@ -108,52 +106,94 @@ namespace EasyMeal.Web.Orders.Controllers
             ViewBag.DishesPerMeal = dishesPerMeal;
             ViewBag.Orders = orders;
             ViewBag.OrderIds = orderJSON;
-
+            ViewBag.DaysOfWeek = Enum.GetValues(typeof(DayOfWeek));
 
             return View(mealsForCurrentWeek);
         }
 
         [HttpPost]
-        public ActionResult Menu(int mealId, int week, string exOrders, DateTime orderDate, string DessertSize = "Medium", string StarterSize = "Medium", string MainSize = "Medium")
+        public ActionResult Menu(int mealId, int week, string exOrders, DateTime orderDate, string DessertSize = "Medium", string StarterSize = "Medium", string MainSize = "Medium", string checkout = "false")
         {
-            Debug.WriteLine("[POST] Reached POST");
             var previousOrders = ((JArray)JsonConvert.DeserializeObject(exOrders)).ToObject<List<ClientOrder>>();
-            var meal = _mealRepo.GetMeal(mealId);
-            var dishes = _mealRepo.GetAllDishesForMeal(meal);
-            dishes.ToList().ForEach(md =>
+
+            if (!checkout.Equals("true"))
             {
-                Debug.WriteLine("[POST] Reached a MD " + md.Id);
-                var Id = md.Id;
-                DishSize size = DishSize.Medium;
-                DishType currentType = md.DishType;
-                if (currentType.Equals(DishType.Starter))
-                {
-                    size = (DishSize)Enum.Parse(typeof(DishSize), StarterSize);
-                } else if (currentType.Equals(DishType.Main))
-                {
-                    size = (DishSize)Enum.Parse(typeof(DishSize), MainSize);
-                }
-                else if(currentType.Equals(DishType.Dessert))
-                {
-                    size = (DishSize)Enum.Parse(typeof(DishSize), DessertSize);
-                }
+                var meal = _mealRepo.GetMeal(mealId);
+                var dishes = _mealRepo.GetAllDishesForMeal(meal);
 
-                var singleOrder = new ClientOrder()
+                dishes.ToList().ForEach(md =>
                 {
-                    DishId = Id,
-                    Client = null,
-                    Date = orderDate,
-                    Size = size
-                };
-                Debug.WriteLine("[POST] Reached complete order " + singleOrder);
-                previousOrders.Add(singleOrder);
-            });
+                    var Id = md.Id;
+                    DishSize size = DishSize.Medium;
+                    DishType currentType = md.DishType;
+                    if (currentType.Equals(DishType.Starter))
+                    {
+                        size = (DishSize)Enum.Parse(typeof(DishSize), StarterSize);
+                    }
+                    else if (currentType.Equals(DishType.Main))
+                    {
+                        size = (DishSize)Enum.Parse(typeof(DishSize), MainSize);
+                    }
+                    else if (currentType.Equals(DishType.Dessert))
+                    {
+                        size = (DishSize)Enum.Parse(typeof(DishSize), DessertSize);
+                    }
 
-            Debug.WriteLine("[POST] Reached end of orders");
+                    var singleOrder = new ClientOrder()
+                    {
+                        DishId = Id,
+                        Client = null,
+                        Date = orderDate,
+                        Size = size
+                    };
+                    previousOrders.Add(singleOrder);
+                });
+            }
+
             String orderJSON = JsonConvert.SerializeObject(previousOrders);
             TempData["Orders"] = orderJSON;
 
-            return RedirectToAction("Menu", week);
+            if (checkout.Equals("true"))
+            {
+                return RedirectToAction("CheckedOut", week);
+            } else
+            {
+                return RedirectToAction("Menu", week);
+            }
+        }
+
+        public IActionResult CheckedOut(int id)
+        {
+            // Collect current orders
+            var dishesPresent = new Dictionary<int, Dish>();
+            var orders = new List<ClientOrder>();
+            if (TempData["Orders"] != null)
+            {
+                var orderTEMP = (string)TempData["Orders"];
+                orders = ((JArray)JsonConvert.DeserializeObject(orderTEMP)).ToObject<List<ClientOrder>>();
+
+                orders.ForEach(co => {
+                    if (!dishesPresent.ContainsKey(co.DishId))
+                    {
+                        dishesPresent.Add(co.DishId, _mealRepo.GetDish(co.DishId));
+                    }
+                });
+            }
+            var orderJSON = JsonConvert.SerializeObject(orders);
+
+            DayOfWeek[] days = new DayOfWeek[] { DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Friday, DayOfWeek.Saturday, DayOfWeek.Sunday };
+            var ordersByDay = new Dictionary<DayOfWeek, IEnumerable<ClientOrder>>();
+
+            days.ToList().ForEach(day =>
+            {
+                ordersByDay.Add(day, orders.Where(co => co.Date.DayOfWeek.Equals(day)));
+            });
+
+            ViewBag.Orders = orders;
+            ViewBag.OrderedDishes = dishesPresent;
+            ViewBag.WeekNumber = id.ToString();
+
+            return View(ordersByDay);
         }
     }
 }

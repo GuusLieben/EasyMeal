@@ -11,11 +11,10 @@ namespace EasyMeal.Core.Domain
         {
         }
 
-        public Dish(string name, string description, string imageUri, DishSize dishSize, Double price, DishType dishType)
+        public Dish(string name, string description, DishSize dishSize, Double price, DishType dishType)
         {
             Name = name;
             Description = description;
-            ImageUri = imageUri;
             DishSize = dishSize;
             Price = price;
             DishType = dishType;
@@ -36,11 +35,6 @@ namespace EasyMeal.Core.Domain
         [Required]
         [Column("Description")]
         public string Description { get; set; }
-
-        [Required]
-        [Column("ImageUri")]
-        [Display(Name="Image Uri")]
-        public string ImageUri { get; set; }
 
         [Column("DietRestrictions")]
         [Display(Name = "Diet Restrictions")]
@@ -65,5 +59,9 @@ namespace EasyMeal.Core.Domain
         [Column("Type")]
         [Display(Name = "Dish Type")]
         public DishType DishType { get; set; }
+
+        [Column("Image")]
+        [Display(Name = "Dish Image")]
+        public byte[] Image { get; set; }
     }
 }

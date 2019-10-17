@@ -68,7 +68,7 @@
                 </select>
                 <span asp-validation-for="DessertId" class="text-danger"></span>
             </div>
-            <select asp-for="Id" class="form-control">
+            <select  style="display: none;"  asp-for="Id" class="form-control">
                 <option selected value="@Model.Id">@Model.Id</option>
             </select>
             <br />

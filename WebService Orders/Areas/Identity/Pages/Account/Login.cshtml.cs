@@ -69,7 +69,6 @@ namespace EasyMeal.Web.Orders.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPostAsync()
         {
-            Debug.WriteLine("[REACHED POST]");
             if (ModelState.IsValid)
             {
                 // This doesn't count login failures towards account lockout
@@ -77,20 +76,17 @@ namespace EasyMeal.Web.Orders.Areas.Identity.Pages.Account
                 var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
-                    Debug.WriteLine("[REACHED POST] Logged in");
                     _logger.LogInformation("User logged in.");
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Public");
                 }
                 if (result.IsLockedOut)
                 {
-                    Debug.WriteLine("[REACHED POST] Locked out");
                     _logger.LogWarning("User account locked out.");
                     ModelState.AddModelError(string.Empty, "User locked out.");
                     return Page();
                 }
                 else
                 {
-                    Debug.WriteLine("[REACHED POST] Invalid");
                     ModelState.AddModelError(string.Empty, "Invalid login attempt.");
                     return Page();
                 }

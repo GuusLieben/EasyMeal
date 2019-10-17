@@ -1,7 +1,10 @@
 ﻿using EasyMeal.Core.Domain;
 using EasyMeal.Core.Domain.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
+using System.IO;
 
 namespace EasyMeal.Web.Meals.Controllers
 {
@@ -46,10 +49,21 @@ namespace EasyMeal.Web.Meals.Controllers
         }
 
         [HttpPost, ValidateAntiForgeryToken]
-        public IActionResult Create(Dish model)
+        public IActionResult Create([Bind("Name,Description,DietRestrictions,Price,DishType")] Dish model, IFormFile image)
         {
             if (ModelState.IsValid)
             {
+                if (image != null)
+                {
+                    if (image.Length > 0)
+                    {
+                        using (var stream = new MemoryStream())
+                        {
+                            image.CopyTo(stream);
+                            model.Image = stream.ToArray();
+                        }
+                    }
+                }
                 _repo.CreateDish(model);
                 return RedirectToAction("Index");
             }
@@ -58,10 +72,22 @@ namespace EasyMeal.Web.Meals.Controllers
 
 
         [HttpPost, ValidateAntiForgeryToken]
-        public IActionResult Edit(Dish model)
+        public IActionResult Edit(Dish model, IFormFile image)
         {
+            Debug.WriteLine("REACHED EDIT");
             if (ModelState.IsValid)
             {
+                if (image != null)
+                {
+                    if (image.Length > 0)
+                    {
+                        using (var stream = new MemoryStream())
+                        {
+                            image.CopyTo(stream);
+                            model.Image = stream.ToArray();
+                        }
+                    }
+                }
                 model.Price /= 100;
                 _repo.EditDish(model);
                 return RedirectToAction("Index");

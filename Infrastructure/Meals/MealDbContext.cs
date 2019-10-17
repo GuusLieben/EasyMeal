@@ -29,11 +29,11 @@ namespace EasyMeal.Infrastructure.Meals
             var cook = new Cook("Henk", "Dekker", "h.d@avans.nl" ,"0612345678");
 
             // Dishes
-            var dessert = new Dish("Salted Caramel Cake", "Moist, delicious layer cake with caramel icing", "google.com", DishSize.Medium, 3.95, DishType.Dessert) { Id = -2 };
+            var dessert = new Dish("Salted Caramel Cake", "Moist, delicious layer cake with caramel icing", DishSize.Medium, 3.95, DishType.Dessert) { Id = -2 };
             dessert.AddRestriction("No salt");
 
-            var starter = new Dish("Carpaccio", "A dish of meat or fish, thinly sliced or pounded thin, and served raw", "google.com", DishSize.Small, 5.80, DishType.Starter) { Id = -3 };
-            var main = new Dish("Filet Mignons", "A steak cut of beef taken from the smaller end of the tenderloin, or psoas major of the cow carcass", "google.com", DishSize.Medium, 28.30, DishType.Main) { Id = -4 };
+            var starter = new Dish("Carpaccio", "A dish of meat or fish, thinly sliced or pounded thin, and served raw", DishSize.Small, 5.80, DishType.Starter) { Id = -3 };
+            var main = new Dish("Filet Mignons", "A steak cut of beef taken from the smaller end of the tenderloin, or psoas major of the cow carcass", DishSize.Medium, 28.30, DishType.Main) { Id = -4 };
 
 
             Dish[] dishes = new Dish[]

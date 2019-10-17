@@ -9,22 +9,36 @@
 {
     @foreach (var dish in list)
     {
+
+
         <div class="column is-6 is-4-desktop">
-            <div class="c-card is-sample is-padded ">
+            <div class="c-card is-sample is-padded" style="margin-top: -2px;">
 
                 <div class="container">
                     <div class="row">
                         <div class="col-1">
-                            <div class="r-image">
-                                <img src="~/img/logo-medium-nobord.png" />
+                            <div class="r-image" >
+                                @{
+                                    if (dish.Image != null && dish.Image.Length > 0)
+                                    {
+                                        var base64 = Convert.ToBase64String(dish.Image);
+                                        var imgSrc = string.Format("data:image/gif;base64,{0}", base64);
+                                        <img style="object-fit: cover; width: 100%; height: 100%;" src="@imgSrc" />
+                                    }
+                                    else
+                                    {
+                                        <img style="object-fit: cover;" src="~/img/logo-medium-nobord.png" />
+                                    }
+
+                                }
                             </div>
                         </div>
                         <div class="col-11">
                             <div class="r-header ">
                                 <div>
                                     <h3>@dish.Name</h3>
-                                    <h4>€@String.Format("{0:0.00}", dish.Price) - @dish.DishType</h4>
-                                    <p class="can-truncate-2" style="max-width: 80%;">@dish.Description</p>
+                                    <h4>€@String.Format("{0:0.00}", dish.Price) • @dish.DishType</h4>
+                                    <p class="can-truncate-2" style="max-width: 600px;"><i>@String.Join(", ", dish.DietRestrictions)</i></p>
                                     <a data-toggle="collapse" data-target="#collapse-@dish.Id-@ViewData["ParentId"]" aria-expanded="false" aria-controls="collapseExample">
                                         <span class="o-small o-highlight">Details</span>
                                     </a>
@@ -42,13 +56,13 @@
                         <div>
                             @if (dish.DietRestrictions.Count > 0)
                             {
-                                <h3>Compatible with :</h3>
-                                @String.Join(", ", dish.DietRestrictions)
+                                <h3>Description :</h3>
+                                @dish.Description
                                 <br /><br />
                             }
 
                             <h3>Size : </h3>
-                            
+
                             <select class="form-control" name="@dish.DishType.ToString(Layout)Size">
                                 @foreach (var opt in Enum.GetValues(typeof(EasyMeal.Core.Domain.DishSize)))
                                 {

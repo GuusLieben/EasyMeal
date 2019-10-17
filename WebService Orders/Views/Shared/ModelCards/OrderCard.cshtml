@@ -121,17 +121,23 @@
     </div>
     <br />
 </div>
-<div class="float-right">
-    @if (amountOfOrders >= 4 && ViewBag.Match)
+@if (ViewBag.Checkout)
+{
+    @using (Html.BeginForm())
     {
-        <button style="min-width: 150px; margin-top: 10px;" class="btn btn-info">
-            Checkout
-        </button>
+        <div class="float-right">
+            <input type="text" name="datetime" value="@ViewBag.WeekNumber" style="display: none;" />
+            <input type="text" name="exOrders" value="@ViewBag.OrderIds" style="display: none;" />
+            <input type="text" name="checkout" value="true" style="display: none;" />
+
+            @if (amountOfOrders >= 4 && ViewBag.Match)
+            {
+                <input type="submit" style="margin: 20px 0px 10px 12px;" class="btn btn-info" value="Checkout" />
+            }
+            else
+            {
+                <input type="submit" style="margin: 20px 0px 10px 12px;" class="btn btn-info" value="Checkout" disabled />
+            }
+        </div>
     }
-    else
-    {
-        <button style="min-width: 150px; margin-top: 10px;" class="btn btn-info" disabled>
-            Checkout
-        </button>
-    }
-</div>
+}
