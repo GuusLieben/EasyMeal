@@ -21,6 +21,10 @@ namespace EasyMeal.Web.Meals.Controllers
 
         public IActionResult Index()
         {
+            var mealNoSalt = true;
+            var mealNoSugar = true;
+            var mealNoGluten = true;
+
             var errorMessage = TempData["Error"];
             if (errorMessage != null)
             {
@@ -28,6 +32,7 @@ namespace EasyMeal.Web.Meals.Controllers
             }
             var meals = _repo.GetAllMealOptions();
             var associatedDishes = new List<Tuple<int, IEnumerable<Dish>>>();
+            
             foreach (Meal meal in meals)
             {
                 var tuple = new Tuple<int, IEnumerable<Dish>>(meal.Id, _repo.GetAllDishesForMeal(meal));
@@ -38,6 +43,45 @@ namespace EasyMeal.Web.Meals.Controllers
             foreach (var meal in meals)
             {
                 int week = meal.DateValid.Week();
+                if (week == DateTime.Today.Week()+2)
+                {
+                    associatedDishes.Where(e => e.Item1 == meal.Id).ToList().ForEach(e =>
+                    {
+                        var noSalt = true;
+                        var noSugar = true;
+                        var noGluten = true;
+
+                        e.Item2.ToList().ForEach(dish =>
+                        {
+                            var salt = true;
+                            var sugar = true;
+                            var gluten = true;
+                            dish.DietRestrictions.ForEach(dr =>
+                            {
+                                if (!dr.ToLower().Contains("salt"))
+                                {
+                                    salt = false;
+                                } else if (!dr.ToLower().Contains("sugar"))
+                                {
+                                    sugar = false;
+                                }
+                                else if(!dr.ToLower().Contains("gluten"))
+                                {
+                                    gluten = false;
+                                }
+                            });
+
+                            if (!salt) { noSalt = false; }
+                            if (!sugar) { noSugar = false; ; }
+                            if (!gluten) { noGluten = false; }
+                        });
+
+                        if (!noSalt) { mealNoSalt = false; }
+                        if (!noSugar) { mealNoSugar = false; }
+                        if (!noGluten) { mealNoGluten = false; }
+                    });
+                }
+
                 if (mealsPerWeek.ContainsKey(week))
                 {
                     mealsPerWeek.GetValueOrDefault(week)?.Add(meal);
@@ -46,6 +90,10 @@ namespace EasyMeal.Web.Meals.Controllers
                     mealsPerWeek.Add(week, new List<Meal>() { meal });
                 }
             }
+            ViewBag.SaltWarning = !mealNoSalt;
+            ViewBag.SugarWarning = !mealNoSugar;
+            ViewBag.GlutenWarning = !mealNoGluten;
+            ViewBag.Results = meals.Count();
 
             return View(mealsPerWeek);
         }

@@ -78,8 +78,10 @@ namespace EasyMeal.Web.Orders
 
             Infrastructure.Orders.IdentitySeedData.EnsurePopulated(app);
             UserManager = app.ApplicationServices.CreateScope().ServiceProvider.GetRequiredService<UserManager<Client>>();
+            SignInManager = app.ApplicationServices.CreateScope().ServiceProvider.GetRequiredService<SignInManager<Client>>();
         }
 
         public static UserManager<Client> UserManager { get; set; }
+        public static SignInManager<Client> SignInManager { get; set; }
     }
 }

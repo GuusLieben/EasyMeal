@@ -2,15 +2,35 @@
 
 @{
     ViewData["Title"] = "Meals";
-    ViewData["Results"] = Model.Count();
+    ViewData["Results"] = ViewBag.Results;
+    var weekNum = EasyMeal.Core.Domain.Extensions.Week(DateTime.Today)+2;
+
+    if (!ViewBag.SaltWarning || !ViewBag.SugarWarning || !ViewBag.GlutenWarning)
+    {
+        ViewBag.Message = "";
+        if (!ViewBag.SaltWarning)
+        {
+            ViewBag.Message += "$The menu for week " + weekNum + " does not contain at least one full meal without salt";
+        }
+
+        if (!ViewBag.SugarWarning)
+        {
+            ViewBag.Message += "$The menu for week " + weekNum + " does not contain at least one full meal without sugar";
+        }
+
+        if (!ViewBag.GlutenWarning)
+        {
+            ViewBag.Message += "$The menu for week " + weekNum + " does not contain at least one full meal without gluten";
+        }
+    }
 }
 
 <partial name="../Shared/IndexHeader" />
 
 @foreach (var week in Model)
 {
-    <h3 style="margin-top: 10px; margin-bottom:5px;">Week @week.Key</h3>
-    <h5 style="color: gray">@EasyMeal.Core.Domain.WeekMenuEM.StartOfWeek(week.Value.First().DateValid, DayOfWeek.Monday).ToLongDateString() - @EasyMeal.Core.Domain.WeekMenuEM.StartOfWeek(week.Value.First().DateValid.AddDays(7), DayOfWeek.Sunday).ToLongDateString()</h5>
+    <h3 style="margin-top: 10px; margin-bottom:5px;">Week @week.Key @{if (EasyMeal.Core.Domain.Extensions.Week(DateTime.Today) + 1 == week.Key) { <em>(Currently open to clients)</em> } else if (EasyMeal.Core.Domain.Extensions.Week(DateTime.Today) + 2 == week.Key) { <em>(To be published this week)</em>} }</h3>
+    <h5 style="color: gray">@EasyMeal.Core.Domain.Extensions.StartOfWeek(week.Value.First().DateValid, DayOfWeek.Monday).ToLongDateString() - @EasyMeal.Core.Domain.Extensions.StartOfWeek(week.Value.First().DateValid.AddDays(7), DayOfWeek.Sunday).ToLongDateString()</h5>
     <hr style="margin-bottom: 5px;"/>
     <div id="" class="card-list columns is-multiline is-marginless">
         @foreach (var meal in week.Value)

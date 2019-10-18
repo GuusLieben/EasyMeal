@@ -3,12 +3,13 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Collections.Generic;
 
 namespace EasyMeal.Infrastructure.Orders
 {
     public static class IdentitySeedData
     {
-        private const string user = "Guus";
+        private const string user = "Henk";
         private const string userPassword = "Secret123$";
         public static async void EnsurePopulated(IApplicationBuilder app)
         {
@@ -21,8 +22,7 @@ namespace EasyMeal.Infrastructure.Orders
                 Client client = await userManager.FindByNameAsync(user);
                 if (client == null)
                 {
-                    // public Client(string firstname, string lastname, string email, string phonenumber, string city, string street, int houseNumber, string addition, DateTime birthDate)
-                    client = new Client(user, "Lieben", "guus@avans.nl", "0612345678", "Breda", "Lovensdijkstraat", 16, "A", DateTime.Parse("23/7/2019"));
+                    client = new Client().Insert(user, "Lieben", "henk@avans.nl", "+31612345678", "Breda", "Lovensdijkstraat", 16, "A", DateTime.Parse("1/1/2019"), new List<string>(), new List<ClientOrder>());
                     await userManager.CreateAsync(client, userPassword);
                 }
             }

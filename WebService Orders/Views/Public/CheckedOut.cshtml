@@ -11,7 +11,12 @@
     <div class="row">
         <div class="col text-center">
             <h1>You successfully checked out!</h1>
-            <h4>Your bill for week @ViewBag.WeekNumber will automatically appear on the end of the month.</h4>
+            <h3>Your orders will be delived between 18:00 and 18:30 on the day you've ordered.</h3>
+
+            <p>To view all your orders, click <a asp-action="Orders" asp-controller="Public">here</a>. To review your new order, we've made a special overview, just for you, right here.</p>
+            <p>Your bill for week @ViewBag.WeekNumber will automatically appear on the end of the month.</p><br />
+            <small><em>If you have another order open for week @ViewBag.WeekNumber this order will be added to that receipt.</em></small><br />
+            <br />
         </div>
     </div>
     <div class="row">

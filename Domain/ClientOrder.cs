@@ -7,8 +7,7 @@ namespace EasyMeal.Core.Domain
     {
         [Key]
         public int Id { get; set; }
-
-        public Client Client { get; set; }
+        public string ClientId { get; set; }
         public int DishId { get; set; }
         public DateTime Date { get; set; }
         public DishSize Size { get; set; }

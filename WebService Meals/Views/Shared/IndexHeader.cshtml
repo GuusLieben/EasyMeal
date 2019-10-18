@@ -1,27 +1,48 @@
-﻿<!-- Item count and sort -->
-    <div class="columns is-mobile is-multiline" style="padding-left: 15px; align-items: center; margin-bottom: 0;">
+﻿@{
+    ViewData["Results"] = ViewData["Results"] ?? "∞";
+    string[] messages = null;
+    if (ViewBag.Message != null && ViewBag.Message.Contains("$"))
+    {
+        messages = ViewBag.Message.Split('$');
+    }
+}
+<div class="columns is-mobile is-multiline" style="padding-left: 15px; align-items: center; margin-bottom: 0;">
 
-        <div class="column is-12-mobile is-12-tablet is-12-desktop has-text-weight-semibold">
+    <div class="column is-12-mobile is-12-tablet is-12-desktop has-text-weight-semibold">
 
-            <br><div style="display: inline;">
-                    @if (ViewBag.Message != null)
+        <br><div style="display: inline;">
+            @if (messages != null)
+            {
+                <div class="notification" style="background: #ffdada">
+                    @if (messages.GetType().Equals(typeof(string[])) && messages.Length > 1)
                     {
-                    <div class="notification">
-                        <b>⚠️</b> <em style="color:black"> @ViewBag.Message</em>
-                    </div>
+                        <b>⚠️</b> <em style="color:black">Notice :</em><br />
+                        foreach (var message in messages)
+                        {
+                            if (message.ToString().Length > 0)
+                            {
+                                <b>· </b> <em style="color:black"> @message</em><br />
+                            }
+                        }
                     }
-                @ViewData["Results"] result(s)&emsp;&emsp;<a class="btn btn-info" asp-action="Create">New</a>
+                    else
+                    {
+                        <b>⚠️</b> <em style="color:black"> @ViewBag.Message</em>
+                    }
+                </div>
+            }
+            @ViewData["Results"] result(s)&emsp;&emsp;<a class="btn btn-info" asp-action="Create">New</a>
 
-            </div>
         </div>
-        <div class="column is-12-mobile is-12-tablet is-12-desktop">
-            <ul class="is-flex">
-                
-                <li>
-                    <button class="button btn-list is-transparent"><i class="fas fa-bars"></i></button>
-                    <button class="button btn-grid is-transparent"><i class="fas fa-th-large"></i></button>
-                </li>
-            </ul>
-        </div>
-
     </div>
+    <div class="column is-12-mobile is-12-tablet is-12-desktop">
+        <ul class="is-flex">
+
+            <li>
+                <button class="button btn-list is-transparent"><i class="fas fa-bars"></i></button>
+                <button class="button btn-grid is-transparent"><i class="fas fa-th-large"></i></button>
+            </li>
+        </ul>
+    </div>
+
+</div>

@@ -1,8 +1,8 @@
 ﻿@{ 
     var modelDate = Model;
-    var weekNum = EasyMeal.Core.Domain.WeekMenuEM.Week(modelDate);
-    var firstDate = EasyMeal.Core.Domain.WeekMenuEM.StartOfWeek(modelDate, DayOfWeek.Monday);
-    var lastDate = EasyMeal.Core.Domain.WeekMenuEM.StartOfWeek(modelDate.AddDays(7), DayOfWeek.Sunday);
+    var weekNum = EasyMeal.Core.Domain.Extensions.Week(modelDate);
+    var firstDate = EasyMeal.Core.Domain.Extensions.StartOfWeek(modelDate, DayOfWeek.Monday);
+    var lastDate = EasyMeal.Core.Domain.Extensions.StartOfWeek(modelDate.AddDays(7), DayOfWeek.Sunday);
     var query = "?date=" + modelDate.ToString() + "&year=" + modelDate.Year;
 }
 

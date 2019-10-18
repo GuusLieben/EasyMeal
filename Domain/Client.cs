@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -7,26 +8,30 @@ namespace EasyMeal.Core.Domain
 {
     public class Client : IActor
     {
+        [ActivatorUtilitiesConstructor]
         public Client()
         {
         }
 
-        public Client(string firstname, string lastname, string email, string phonenumber, string city, string street, int houseNumber, string addition, DateTime birthDate)
+        public Client Insert(
+            string firstname, 
+            string lastname, 
+            string email, 
+            string phonenumber,
+            string city, 
+            string street, 
+            int houseNumber, 
+            string addition, 
+            DateTime birthDate, 
+            ICollection<string> dietRestrictions, 
+            ICollection<ClientOrder> orderHistory
+            )
         {
             Firstname = firstname;
             Lastname = lastname;
             Email = email;
-            Phonenumber = phonenumber;
             UserName = email;
-            City = city;
-            Street = street;
-            HouseNumber = houseNumber;
-            Addition = addition;
-            BirthDate = birthDate;
-        }
-
-        public Client(string city, string street, int houseNumber, string addition, DateTime birthDate, ICollection<string> dietRestrictions, ICollection<ClientOrder> orderHistory)
-        {
+            Phonenumber = phonenumber;
             City = city;
             Street = street;
             HouseNumber = houseNumber;
@@ -34,6 +39,7 @@ namespace EasyMeal.Core.Domain
             BirthDate = birthDate;
             DietRestrictions = dietRestrictions;
             OrderHistory = orderHistory;
+            return this;
         }
 
 
@@ -70,7 +76,6 @@ namespace EasyMeal.Core.Domain
         public ICollection<string> DietRestrictions { get; set; }
 
         [Column("Orders")]
-        
         public ICollection<ClientOrder> OrderHistory { get; set; }
     }
 }

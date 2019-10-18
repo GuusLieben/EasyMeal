@@ -91,6 +91,7 @@
     --dynamics-color: #486EA6;
     --powerbi-color: #f2c811;
 }
+
 .column {
     display: block;
     flex-basis: 0;
@@ -556,4 +557,133 @@ a:hover:not([tooltip]):not(.button):not(.glossary-link) {
 .btn {
     font-size: 0.8rem;
     color: white !important;
+}
+
+.scrolling-wrapper {
+    overflow-x: scroll;
+    overflow-y: scroll;
+    white-space: nowrap;
+    padding: 50px;
+    background: #eee;
+    direction: rtl;
+    transform: rotate(180deg);
+    overflow-y: hidden;
+    overflow-x: scroll;
+    padding-top: 30px;
+}
+
+    .scrolling-wrapper .container-fluid {
+        direction: ltr;
+        display: inline-block;
+        transform: rotate(-180deg);
+    }
+
+.tgl {
+    display: none;
+}
+
+    .tgl, .tgl:after, .tgl:before, .tgl *, .tgl *:after, .tgl *:before, .tgl + .tgl-btn {
+        box-sizing: border-box;
+    }
+
+        .tgl::-moz-selection, .tgl:after::-moz-selection, .tgl:before::-moz-selection, .tgl *::-moz-selection, .tgl *:after::-moz-selection, .tgl *:before::-moz-selection, .tgl + .tgl-btn::-moz-selection {
+            background: none;
+        }
+
+        .tgl::selection, .tgl:after::selection, .tgl:before::selection, .tgl *::selection, .tgl *:after::selection, .tgl *:before::selection, .tgl + .tgl-btn::selection {
+            background: none;
+        }
+
+        .tgl + .tgl-btn {
+            outline: 0;
+            display: block;
+            width: 4em;
+            height: 2em;
+            position: relative;
+            cursor: pointer;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+            .tgl + .tgl-btn:after, .tgl + .tgl-btn:before {
+                position: relative;
+                display: block;
+                content: "";
+                width: 50%;
+                height: 100%;
+            }
+
+            .tgl + .tgl-btn:after {
+                left: 0;
+            }
+
+            .tgl + .tgl-btn:before {
+                display: none;
+            }
+
+        .tgl:checked + .tgl-btn:after {
+            left: 50%;
+        }
+
+.tgl-flip + .tgl-btn {
+    padding: 2px;
+    transition: all .2s ease;
+    -webkit-perspective: 100px;
+    perspective: 100px;
+}
+
+    .tgl-flip + .tgl-btn:after, .tgl-flip + .tgl-btn:before {
+        display: inline-block;
+        transition: all .4s ease;
+        width: 100%;
+        text-align: center;
+        font-weight: normal !important;
+        font-size: 12px;
+        position: absolute;
+        color: #fff;
+        position: absolute;
+        top: 0;
+        left: 0;
+        -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
+        border: 1px solid #ced4da !important;
+    }
+
+    .tgl-flip + .tgl-btn:after {
+        content: attr(data-tg-on);
+        -webkit-transform: rotateY(-180deg);
+        transform: rotateY(-180deg);
+    }
+
+    .tgl-flip + .tgl-btn:before {
+        background: #333;
+        content: attr(data-tg-off);
+    }
+
+    .tgl-flip + .tgl-btn:active:before {
+        -webkit-transform: rotateY(-20deg);
+        transform: rotateY(-20deg);
+    }
+
+.tgl-flip:checked + .tgl-btn:before {
+    -webkit-transform: rotateY(180deg);
+    transform: rotateY(180deg);
+}
+
+.tgl-flip:checked + .tgl-btn:after {
+    -webkit-transform: rotateY(0);
+    transform: rotateY(0);
+    left: 0;
+    background: #17a2b8;
+}
+
+.tgl-flip:checked + .tgl-btn:active:after {
+    -webkit-transform: rotateY(20deg);
+    transform: rotateY(20deg);
+}
+
+.notification {
+    background: #231F1F !important;
 }

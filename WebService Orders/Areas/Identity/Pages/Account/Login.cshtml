@@ -3,6 +3,7 @@
 
 @{
     ViewData["Title"] = "Log in";
+    ViewData["Path"] = new String[] { "Login" };
 }
 
 <h1>@ViewData["Title"]</h1>
@@ -32,12 +33,9 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <button type="submit" class="btn btn-primary">Log in</button>
+                    <button type="submit" class="btn btn-info">Log in</button>
                 </div>
                 <div class="form-group">
-                    <p>
-                        <a id="forgot-password" asp-page="./ForgotPassword">Forgot your password?</a>
-                    </p>
                     <p>
                         <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Register as a new user</a>
                     </p>
@@ -47,32 +45,25 @@
     </div>
     <div class="col-md-6 col-md-offset-2">
         <section>
-            <h4>Use another service to log in.</h4>
+            <h4>Welcome to EasyMeal</h4>
             <hr />
-            @{
-                if ((Model.ExternalLogins?.Count ?? 0) == 0)
-                {
-                    <div>
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-3">
+                        <img src="~/img/headchef.jpg" style="border-radius: 1000px;" />
+                    </div>
+                    <div class="col-9" style="max-width: 50%;">
                         <p>
-                            There are no external authentication services configured. See <a href="https://go.microsoft.com/fwlink/?LinkID=532715">this article</a>
-                            for details on setting up this ASP.NET application to support logging in via external services.
+                            David Allan Russell Jr. serves as the newly appointed Executive Chef at EasyMeal and brings his unique culinary talents to the service. Born in Castro Valley, California, Chef Russell’s first experience with food began cooking in the kitchen with his grandparents who taught him to truly enjoy the creative process of cooking. Chef draws his culinary inspiration from his passion for uniting people through food. Chef Russell began his professional career studying at the San Francisco Le Cordon Bleu Culinary School and before graduating began working as a server at La Furia Chalaca, a Peruvian restaurant in Oakland, California.
                         </p>
                     </div>
-                }
-                else
-                {
-                    <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
-                        <div>
-                            <p>
-                                @foreach (var provider in Model.ExternalLogins)
-                                {
-                                    <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
-                                }
-                            </p>
-                        </div>
-                    </form>
-                }
-            }
+                </div>
+                
+
+            </div>
+
+
         </section>
     </div>
 </div>

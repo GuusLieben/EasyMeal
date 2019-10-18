@@ -14,9 +14,10 @@
         <div class="column is-6 is-4-desktop">
             <div class="c-card is-sample is-padded" style="margin-top: -2px;">
 
-                <div class="container">
-                    <div class="row">
-                        <div class="col-1">
+                <div class="container" style="max-width: 100%;">
+                    <div class="row" style="max-width: 100%;">
+                        <div class="col-2">
+
                             <div class="r-image" >
                                 @{
                                     if (dish.Image != null && dish.Image.Length > 0)
@@ -33,7 +34,14 @@
                                 }
                             </div>
                         </div>
-                        <div class="col-11">
+                        <div class="col-10" style="max-width: 100%;">
+
+                            @if (dish.DishType.Equals(EasyMeal.Core.Domain.DishType.Starter) || dish.DishType.Equals(EasyMeal.Core.Domain.DishType.Dessert)) { 
+                                <span class="c-badge o-small o-highlight">
+                                    <input class="tgl tgl-flip" name="@dish.DishType.ToString().ToLower()" id="@dish.DishType.ToString().ToLower()" value="true" type="checkbox" checked/>
+                                    <label class="tgl-btn" data-tg-off="Add" data-tg-on="Added" for="@dish.DishType.ToString().ToLower()"></label>
+                                </span>
+                            }
                             <div class="r-header ">
                                 <div>
                                     <h3>@dish.Name</h3>
@@ -89,5 +97,5 @@
     <input type="text" name="datetime" value="@ViewBag.WeekNumber" style="display: none;" />
     <input type="text" name="exOrders" value="@ViewBag.OrderIds" style="display: none;" />
     <input type="datetime" name="orderDate" value="@Model.DateValid" style="display: none;" />
-    <input type="submit" style="margin: 20px 0px 10px 12px;" class="btn btn-info" value="Add to order" />
+    <input type="submit" style="margin: 20px 0px 10px 12px;" class="btn btn-info" value="Checkout" />
 }

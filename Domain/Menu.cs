@@ -43,9 +43,10 @@ namespace EasyMeal.Core.Domain
         public Menu()
         {
         }
+
     }
 
-    public static class WeekMenuEM
+    public static class Extensions
     {
         public static int Week(this DateTime date)
         {

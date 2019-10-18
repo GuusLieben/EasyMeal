@@ -22,8 +22,9 @@ namespace EasyMeal.Web.Orders.Areas.Identity.Pages.Account
             _logger = logger;
         }
 
-        public void OnGet()
+        public async void OnGet()
         {
+            await _signInManager.SignOutAsync();
         }
 
         public async Task<IActionResult> OnPost(string returnUrl = null)

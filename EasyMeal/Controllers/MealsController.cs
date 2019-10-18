@@ -49,21 +49,21 @@ namespace EasyMeal.API.Controllers
         }
 
         [HttpPost]
-        public void Post([FromBody] Meal dish)
+        public ActionResult Post([FromBody] Meal meal)
         {
-            throw new NotImplementedException();
+            return NoContent();
         }
 
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] Meal dish)
+        public ActionResult Put(int id, [FromBody] Meal meal)
         {
-            throw new NotImplementedException();
+            return NoContent();
         }
 
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public ActionResult Delete(int id)
         {
-            throw new NotImplementedException();
+            return NoContent();
         }
 
     }

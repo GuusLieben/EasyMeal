@@ -3,15 +3,17 @@
 @{
     ViewData["Title"] = "Menu";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    ViewData["Path"] = new String[] { "Menu", "Week", ViewBag.WeekNumber ?? "Unknown"};
+    ViewData["Path"] = new String[] { "Menu", "Week", ViewBag.WeekNumber ?? "Unknown" };
     ViewBag.Checkout = true;
     bool showMeals = true;
     if (Model.Count() == 0)
     {
         showMeals = false;
     }
-    bool matchesWeek = EasyMeal.Core.Domain.WeekMenuEM.Week(DateTime.Today).ToString().Equals(ViewBag.WeekNumber);
+    bool matchesWeek = (EasyMeal.Core.Domain.Extensions.Week(DateTime.Today)+1).ToString().Equals(ViewBag.WeekNumber);
+    bool currentWeek = EasyMeal.Core.Domain.Extensions.Week(DateTime.Today).ToString().Equals(ViewBag.WeekNumber);
     ViewBag.Match = matchesWeek;
+    
 }
 
 <div class="container" style="padding-right: -250px;">
@@ -19,34 +21,58 @@
         <div class="col-8">
             <h1>Menu for week @ViewBag.WeekNumber - @ViewBag.Year</h1>
             <h3>@ViewBag.DateString</h3>
-            @if (!matchesWeek)
+            @if (currentWeek)
+            {
+                <h3>This week has already passed</h3>
+            }
+            else if (!matchesWeek)
             {<h3>Notice : this menu is not yet complete and is subject to change. Therefore you cannot yet order a meal here.</h3>}
+            <!--else
+    {-->
             @if (showMeals)
             {
                 @foreach (var day in ViewBag.DaysOfWeek)
                 {
+
                     int i = 1;
+
                     if (Model.Where(m => m.DateValid.DayOfWeek.Equals(day)).Count() > 0)
                     {
+                        var classes = "btn btn-info";
+                        @if (day < DateTime.Today.DayOfWeek && currentWeek)
+                        { classes = "btn btn-dark"; }
+
                         <h4>
-                            <button style="margin-top: -20px; padding: 10px; margin-bottom: -8px; min-width: 100%;" class="btn btn-info" type="button" data-toggle="collapse" data-target="#collapse-@day" aria-expanded="false" aria-controls="collapseExample">
+                            <button style="margin-top: -20px; padding: 10px; margin-bottom: -8px; min-width: 100%;" class="@classes" type="button" data-toggle="collapse" data-target="#collapse-@day" aria-expanded="false" aria-controls="collapseExample">
                                 @day <i style="margin-left: 10px" class="far fa-minus-square"></i>
                             </button>
                         </h4>
+
                         <div class="collapse show" id="collapse-@day">
                             <div id="" class="card-list is-list-view is-multiline is-marginless border" style="padding: 10px; padding-top:30px">
-                                @foreach (var item in Model.Where(m => m.DateValid.DayOfWeek.Equals(day)))
+                                @if (day < DateTime.Today.DayOfWeek && currentWeek)
                                 {
-                                    <h4 style="margin-left:12px; margin-top:0px;">Meal #@i </h4>
-                                    if (ViewBag.DishesPerMeal.ContainsKey(item.Id))
+                                    <div class="text-center" style="width: 100%;">
+                                        <p>You cannot order for this day because it has already passed.</p>
+                                    </div>
+                                }
+                                else
+                                {
+
+                                    @foreach (var item in Model.Where(m => m.DateValid.DayOfWeek.Equals(day)))
                                     {
-                                        <partial name="../Shared/ModelCards/DishModelCard" model="item" />
+                                        <h4 style="margin-left:12px; margin-top:0px;">Meal #@i </h4>
+                                        if (ViewBag.DishesPerMeal.ContainsKey(item.Id))
+                                        {
+                                            <partial name="../Shared/ModelCards/DishModelCard" model="item" />
+                                        }
+                                        else
+                                        {
+                                            <h4>No dishes in this menu</h4>
+                                        }
+                                        i++;
                                     }
-                                    else
-                                    {
-                                        <h4>No dishes in this menu</h4>
-                                    }
-                                    i++;
+
                                 }
                             </div>
                         </div>
@@ -55,8 +81,9 @@
             }
             else
             {
-                <h4>No menu present for this week :(</h4>
+                <h4>Could not find a menu for this week, please contact us at +31 6 123 45 678 to contact our chefs!</h4>
             }
+            <!--}-->
         </div>
         <div class="col-4">
             <partial name="../Shared/ModelCards/OrderCard" model="ViewBag.SortedOrders;" />

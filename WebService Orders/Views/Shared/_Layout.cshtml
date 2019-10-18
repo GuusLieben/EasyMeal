@@ -23,7 +23,7 @@
                     <header role="banner" class="c-uhfh context-uhf c-sgl-stck c-category-header f-transparent">
                         <div class="js-global-head f-closed global-head-cont theme-dark">
                             <div class="c-uhfh-gcontainer-st">
-                                <a id="uhfLogo" class="c-logo c-sgl-stk-uhfLogo" asp-action="Index" asp-controller="Home">
+                                <a id="uhfLogo" class="c-logo c-sgl-stk-uhfLogo" asp-action="Index" asp-controller="Public">
                                     <img alt="" class="c-image x-hidden-focus" src="~/img/logo-banner-top.png" style="height: 30px; width: auto; margin-top: -5px;" role="presentation" aria-hidden="true">
                                 </a>
                                 <nav id="uhf-g-nav" aria-label="Contextual menu" class="c-uhfh-gnav">
@@ -43,7 +43,7 @@
     <div class="content-header uhf-container has-padding has-default-focus">
         <nav class="has-padding-none-mobile">
             <ul id="page-breadcrumbs" class="breadcrumbs">
-                <li><a asp-action="Index" asp-controller="Home">Home</a></li>
+                <li><a asp-action="Index" asp-controller="Public">Home</a></li>
                 @foreach (var crumb in path)
                 {
                     <li><a>@crumb</a></li>
@@ -56,16 +56,25 @@
                 {
                     <li class="is-unstyle-action-list-item">
                         <div class="dropdown has-caret" auto-align="">
-                            <button class="dropdown-trigger button is-text is-small is-icon-only-touch" aria-controls="theme-menu" aria-expanded="false" title="My Orders">
-                                <span class="icon">
-                                    <i class="fas fa-utensils"></i>
-                                </span>
-                                <span class="action-item-text is-hidden-portrait">My Orders</span>
-                            </button>
+                            <a asp-action="Orders" asp-controller="Public">
+                                <button class="dropdown-trigger button is-text is-small is-icon-only-touch" aria-controls="theme-menu" aria-expanded="false" title="My Orders">
+                                    <span class="icon">
+                                        <i class="fas fa-utensils"></i>
+                                    </span>
+                                    <span class="action-item-text is-hidden-portrait">
+                                        My Orders
+                                    </span>
+                                </button>
+                            </a>
                         </div>
                     </li>
                     <li class="is-unstyled-action-list-item">
-                        <a class="docs-sign-in auth-status-determined authenticated button is-text has-text-primary is-small" href="#">Sign Out</a>
+                        @using (Html.BeginForm("LogOff", "Public", FormMethod.Post, new { role = "form" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            <input type="submit" value="Logout" style="margin-top: 12px;" class="docs-sign-in auth-status-determined authenticated button is-text has-text-primary is-small" />
+                        }
+                        
                     </li>
                 }
                 else
