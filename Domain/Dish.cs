@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
-namespace Domain
+namespace EasyMeal.Core.Domain
 {
     public class Dish
     {
@@ -12,11 +11,10 @@ namespace Domain
         {
         }
 
-        public Dish(string name, string description, string imageUri, DishSize dishSize, Double price, DishType dishType)
+        public Dish(string name, string description, DishSize dishSize, Double price, DishType dishType)
         {
             Name = name;
             Description = description;
-            ImageUri = imageUri;
             DishSize = dishSize;
             Price = price;
             DishType = dishType;
@@ -37,11 +35,6 @@ namespace Domain
         [Required]
         [Column("Description")]
         public string Description { get; set; }
-
-        [Required]
-        [Column("ImageUri")]
-        [Display(Name="Image Uri")]
-        public string ImageUri { get; set; }
 
         [Column("DietRestrictions")]
         [Display(Name = "Diet Restrictions")]
@@ -66,5 +59,9 @@ namespace Domain
         [Column("Type")]
         [Display(Name = "Dish Type")]
         public DishType DishType { get; set; }
+
+        [Column("Image")]
+        [Display(Name = "Dish Image")]
+        public byte[] Image { get; set; }
     }
 }

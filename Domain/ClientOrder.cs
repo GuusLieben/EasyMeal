@@ -1,19 +1,14 @@
-﻿using Domain;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
-namespace DomainModels
+namespace EasyMeal.Core.Domain
 {
     public class ClientOrder
     {
         [Key]
         public int Id { get; set; }
-
-        public Client Client { get; set; }
-        public int MealId { get; set; }
+        public string ClientId { get; set; }
+        public int DishId { get; set; }
         public DateTime Date { get; set; }
         public DishSize Size { get; set; }
     }

@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Linq;
-using Domain;
-using Domain.Services;
+using EasyMeal.Core.Domain;
+using EasyMeal.Core.Domain.Services;
 using Microsoft.EntityFrameworkCore;
-using System.Diagnostics;
 
-namespace Infrastructure.Meals
+namespace EasyMeal.Infrastructure.Meals
 {
     public class EFMealServiceRepository : IMealServiceRepository
     {

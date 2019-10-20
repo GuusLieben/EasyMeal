@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 
-namespace WebService_Orders.Areas.Identity.Pages.Account
+namespace EasyMeal.Web.Orders.Areas.Identity.Pages.Account
 {
     [AllowAnonymous]
     public class LogoutModel : PageModel
@@ -22,8 +22,9 @@ namespace WebService_Orders.Areas.Identity.Pages.Account
             _logger = logger;
         }
 
-        public void OnGet()
+        public async void OnGet()
         {
+            await _signInManager.SignOutAsync();
         }
 
         public async Task<IActionResult> OnPost(string returnUrl = null)

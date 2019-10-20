@@ -1,8 +1,9 @@
-﻿@model WebService_Meals.Models.CreateMealModel
+﻿@model EasyMeal.Web.Meals.Models.CreateMealModel
 
 @{
     ViewData["Title"] = "Create";
-    
+    var week = EasyMeal.Core.Domain.Extensions.Week(DateTime.Today)+1;
+    var date = EasyMeal.Core.Domain.Extensions.StartOfWeek(DateTime.Today.Year, week);
 }
 
 <h1>Create</h1>
@@ -15,7 +16,7 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="DateValid" class="control-label">Date</label>
-                <input type="date" asp-for="DateValid" class="form-control" />
+                <input type="date" asp-for="DateValid" class="form-control" min="@date.ToString("yyyy-MM-dd")"/>
                 <span asp-validation-for="DateValid" class="text-danger"></span>
             </div>
 

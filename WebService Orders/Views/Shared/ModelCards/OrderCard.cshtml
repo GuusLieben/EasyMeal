@@ -1,0 +1,201 @@
+﻿@model Dictionary<DayOfWeek, IEnumerable<EasyMeal.Core.Domain.ClientOrder>>
+
+@{
+    double price = 0;
+    double shipment = 5.00;
+    double discount = 0.00;
+    int amountOfOrders = 0;
+    ViewBag.ShowTotal = ViewBag.ShowTotal ?? true;
+    if (ViewBag.ShowTotal)
+    {
+        amountOfOrders = ViewBag.Orders.Count / 3;
+    }
+
+    var client = Startup.UserManager.FindByEmailAsync(User.Identity.Name).Result;
+    bool birthdayInWeek = false;
+    var birthdayOfWeek = DayOfWeek.Monday;
+    if (EasyMeal.Core.Domain.Extensions.Week(client.BirthDate).ToString().Equals(ViewBag.WeekNumber))
+    {
+        birthdayInWeek = true;
+        var bd = client.BirthDate;
+        var birthday = new DateTime(DateTime.Today.Year, bd.Month, bd.Day);
+        birthdayOfWeek = birthday.DayOfWeek;
+    }
+    double birthdayDiscount = 0.00;
+}
+
+<div class="c-card is-sample is-padded " style="margin-top: -2px; min-height: 500px;">
+    <div class="r-header">
+        <div style="max-width: 100%;">
+            <h2>Order details</h2>
+            @if (ViewBag.ShowTotal)
+            {
+                <h3>@amountOfOrders meal(s) ordered</h3>
+            }
+
+            <br />
+
+
+            @foreach (var day in Model)
+            {
+                if (day.Value.Count() > 0)
+                {
+                    int i = 0;
+                    var orderedList = day.Value.OrderBy(o => o.DishId);
+                    <h4><b>@day.Key.ToString()</b></h4>
+                    <div class="container" style="max-width: 100%; margin-bottom: 50px;">
+                        @foreach (var order in orderedList)
+                        {
+                            var dish = new EasyMeal.Core.Domain.Dish(); ;
+                            ViewBag.OrderedDishes.TryGetValue(order.DishId, out dish);
+                            price += dish.Price;
+                            double discountCalc = 1.0;
+
+
+                            <div class="row" style="margin-top: -5px;">
+                                <div class="col-8"><p>@dish.Name</p></div>
+                                <div class="col-1"><p>€</p></div>
+                                <div class="col-3 text-right"><p>@String.Format("{0:0.00}", dish.Price)</p></div>
+                            </div>
+                            <hr />
+                            <div class="row" style="margin-top: -5px;">
+                                <div class="col-8">
+                                    <small style="color: #808080;">
+                                        <em>
+                                            @order.Size @{
+                                                if (order.Size.Equals(EasyMeal.Core.Domain.DishSize.Large))
+                                                {
+                                                    <em> (+20%)</em>
+                                                    discount -= 0.2 * dish.Price;
+                                                    discountCalc = 1.2;
+
+                                                }
+                                                else if (order.Size.Equals(EasyMeal.Core.Domain.DishSize.Small))
+                                                {
+                                                    <em> (-20%)</em>
+                                                    discount += 0.2 * dish.Price;
+                                                    discountCalc = 0.8;
+                                                }
+                                            }
+                                        </em>
+                                    </small>
+                                </div>
+                                <div class="col-1">
+                                    <small style="color: #808080;">
+                                        @{
+                                            if (order.Size.Equals(EasyMeal.Core.Domain.DishSize.Large))
+                                            {
+                                                <em>€</em>
+                                            }
+                                            else if (order.Size.Equals(EasyMeal.Core.Domain.DishSize.Small))
+                                            {
+                                                <em>€</em>
+                                            }
+                                        }
+                                    </small>
+                                </div>
+                                <div class="col-3 text-right">
+                                    <small style="color: #808080;">
+                                        @{
+                                            if (order.Size.Equals(EasyMeal.Core.Domain.DishSize.Large))
+                                            {
+                                                double amount = 0.2 * dish.Price;
+                                                <em>+@String.Format("{0:0.00}", amount)</em>
+                                            }
+                                            else if (order.Size.Equals(EasyMeal.Core.Domain.DishSize.Small))
+                                            {
+                                                double amount = 0.2 * dish.Price;
+                                                <em>-@String.Format("{0:0.00}", amount)</em>
+                                            }
+                                        }
+                                    </small>
+                                </div>
+                            </div>
+                            @if (birthdayInWeek && day.Key.Equals(birthdayOfWeek))
+                            {
+
+                                birthdayDiscount += discountCalc * dish.Price;
+                                <div class="row"></div>                                
+                                    <div class="row" style="margin-top: -20px;">
+                                        
+                                            <div class="col-8"><small style="color: #808080"><em>🎉 Birthday</em></small></div>
+                                            <div class="col-1"><small style="color: #808080"><em>€</em></small></div>
+                                            <div class="col-3 text-right"><small style="color: #808080"><em>-@String.Format("{0:0.00}", discountCalc * dish.Price)</em></small></div>
+                                    </div>
+
+                            }
+                            <div class="row"></div>
+                                                i++;
+                                            }
+                        <em>@{ i /= 3; } Total : @i meal(s)</em>
+                    </div>
+                                }
+                            }
+        </div>
+    </div>
+    <br />
+</div>
+<div class="c-card is-sample is-padded " style="margin-top: -2px;">
+    <div class="r-header">
+        <div class="container">
+            <div class="row" style="color: #808080;">
+                <div class="col-8"><h4>Total :<br />Delivery &amp; processing :<br /><br />Discount :</h4></div>
+                <div class="col-1"><p>€<br />€<br /><br />€</p></div>
+                <div class="col-3 text-right"><h4>@String.Format("{0:0.00}", price)<br />@String.Format("{0:0.00}", shipment)<br /><br />@String.Format("{0:0.00}", 0 - discount - birthdayDiscount)</h4></div>
+            </div>
+            <div class="row"></div>
+            @if (ViewBag.ordersThisMonth >= 15)
+            {
+
+                <div class="row">
+                    <div class="col-8"><h4>❤️ Loyal customer (-10%) :</h4></div>
+                    <div class="col-1"><p>€</p></div>
+                    <div class="col-3 text-right"><h4>@String.Format("{0:0.00}", 0.1 * (price - discount - birthdayDiscount))</h4></div>
+                </div>
+                <div class="row"></div>
+                price -= (0.1 * (price + shipment - discount - birthdayDiscount));
+
+            }
+                @{
+                    price = price + shipment - discount - birthdayDiscount;
+                    if (price < 5)
+                    {
+                        price = 5.00;
+                    }
+                    }
+
+            <div class="row">
+                <div class="col-8"><h3>Sub-total :</h3></div>
+                <div class="col-1"><p>€</p></div>
+                <div class="col-3 text-right"><h3>@String.Format("{0:0.00}", price)</h3></div>
+            </div>
+            <div class="row">
+                <div class="col-9"><small><em style="line-height: 1.3">Disclaimer : <br />EasyMeal requires all orders to contain at least 4 complete meals.<br />Loyal customer discounts are calculated over the price after discounts.</em></small></div>
+                <div class="col-3"></div>
+            </div>
+
+        </div>
+
+    </div>
+    <br />
+</div>
+@if (ViewBag.Checkout)
+{
+    @using (Html.BeginForm())
+    {
+        <div class="float-right">
+            <input type="text" name="week" value="@ViewBag.WeekNumber" style="display: none;" />
+            <input type="text" name="exOrders" value="@ViewBag.OrderIds" style="display: none;" />
+            <input type="text" name="checkout" value="true" style="display: none;" />
+
+            @if (amountOfOrders >= 4 && ViewBag.Match)
+            {
+                <input type="submit" style="margin: 20px 0px 10px 12px;" class="btn btn-info" value="Add to order" />
+            }
+            else
+            {
+                <input type="submit" style="margin: 20px 0px 10px 12px;" class="btn btn-info" value="Add to order" />
+            }
+        </div>
+    }
+}

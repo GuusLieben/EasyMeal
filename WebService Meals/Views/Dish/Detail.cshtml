@@ -1,47 +1,51 @@
-﻿@model Domain.Dish
+﻿@model EasyMeal.Core.Domain.Dish
 
 @{
     ViewData["Title"] = "Details";
+    var base64 = Convert.ToBase64String(Model.Image);
+    var imgSrc = string.Format("data:image/gif;base64,{0}", base64);
 }
 
-    <div>
+<div>
 
-        <h4>@Model.Name</h4>
-        <ul class="metadata page-metadata" data-bi-name="page info" lang="en-us" dir="ltr">
-            <li class="readingTime">€@String.Format("{0:0.00}", Model.Price)</li>
-            <li class="readingTime">@Model.DishType</li>
-        </ul>
-        <div style="margin-top: 25px">
-            <p>@Model.Description@{if (!Model.Description.EndsWith('.'))
-                {<em>.</em> } }</p>
-
-        </div>
-        <br />
-        <div class="col-sm-2">
-            <b>Image Uri</b>
-        </div>
-        <div class="col-sm-10">
-            @Html.DisplayFor(model => model.ImageUri)
-        </div>
-        <br />
-        <div class="col-sm-2">
-            <b>Restrictions</b>
-        </div>
-        <div class="col-sm-10">
-            @{
-                if (Model.DietRestrictions.Count == 0)
-                {
-                    <p>None</p>
-                }
-                else
-                {
-                    <p>@String.Join(", ", Model.DietRestrictions.ToArray())</p>
-                }
-            }
-            <br />
-        </div>
+    <h4>@Model.Name</h4>
+    <ul class="metadata page-metadata" data-bi-name="page info" lang="en-us" dir="ltr">
+        <li class="readingTime">€@String.Format("{0:0.00}", Model.Price)</li>
+        <li class="readingTime">@Model.DishType</li>
+    </ul>
+    <div style="margin-top: 25px">
+        <p>
+            @Model.Description@{if (!Model.Description.EndsWith('.'))
+            {<em>.</em> } }
+        </p>
 
     </div>
+    <br />
+    <div class="col-sm-2">
+        <b>Image Uri</b>
+    </div>
+    <div class="col-sm-10">
+        <img src="@imgSrc" />
+    </div>
+    <br />
+    <div class="col-sm-2">
+        <b>Restrictions</b>
+    </div>
+    <div class="col-sm-10">
+        @{
+            if (Model.DietRestrictions.Count == 0)
+            {
+                <p>None</p>
+            }
+            else
+            {
+                <p>@String.Join(", ", Model.DietRestrictions.ToArray())</p>
+            }
+        }
+        <br />
+    </div>
+
+</div>
 <div>
     <a class="btn btn-info" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
 </div>

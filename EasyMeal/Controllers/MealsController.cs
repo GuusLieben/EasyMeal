@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Domain;
-using Domain.Services;
+using EasyMeal.Core.Domain;
+using EasyMeal.Core.Domain.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace MealAPI.Controllers
+namespace EasyMeal.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -49,21 +49,21 @@ namespace MealAPI.Controllers
         }
 
         [HttpPost]
-        public void Post([FromBody] Meal dish)
+        public ActionResult Post([FromBody] Meal meal)
         {
-            throw new NotImplementedException();
+            return NoContent();
         }
 
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] Meal dish)
+        public ActionResult Put(int id, [FromBody] Meal meal)
         {
-            throw new NotImplementedException();
+            return NoContent();
         }
 
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public ActionResult Delete(int id)
         {
-            throw new NotImplementedException();
+            return NoContent();
         }
 
     }

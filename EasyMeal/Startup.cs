@@ -1,21 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using Infrastructure.Meals;
 using Microsoft.EntityFrameworkCore;
-using Domain.Services;
-using Infrastructure.Orders;
+using EasyMeal.Infrastructure.Meals;
+using EasyMeal.Core.Domain.Services;
 
-namespace EasyMeal
+namespace EasyMeal.API
 {
     public class Startup
     {
@@ -26,7 +18,6 @@ namespace EasyMeal
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<MealDbContext>(options =>
@@ -37,10 +28,13 @@ namespace EasyMeal
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddScoped<IMealServiceRepository, EFMealServiceRepository>();
-            services.AddScoped<IOrderRepository, EFOrderRepository>();
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Swashbuckle.AspNetCore.Swagger.Info { Title = "EasyMeal", Version = "v1" });
+            });
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
@@ -49,12 +43,20 @@ namespace EasyMeal
             }
             else
             {
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
 
+            app.UseSwagger();
+
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "EasyMeal");
+            });
+
             app.UseHttpsRedirection();
-            app.UseMvc();
+
+            app.UseMvcWithDefaultRoute();
+
         }
     }
 }

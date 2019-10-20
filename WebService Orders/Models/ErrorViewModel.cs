@@ -1,6 +1,6 @@
 using System;
 
-namespace WebService_Orders.Models
+namespace EasyMeal.Web.Orders.Models
 {
     public class ErrorViewModel
     {

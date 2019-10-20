@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
-namespace WebService_Meals
+namespace EasyMeal.Web.Meals
 {
     public class Program
     {

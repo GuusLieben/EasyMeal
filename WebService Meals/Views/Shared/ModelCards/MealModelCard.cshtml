@@ -2,9 +2,19 @@
 
     <div class="c-card is-sample is-padded ">
 
-        <a asp-action="Edit" asp-controller="Meal" asp-route-id="@Model.Id">
-            <span class="c-badge o-small o-highlight">Edit</span>
-        </a>
+        @{
+            var weekOfMeal = EasyMeal.Core.Domain.Extensions.Week(Model.DateValid);
+            var currentWeek = EasyMeal.Core.Domain.Extensions.Week(DateTime.Today);
+
+            Boolean allowedToEdit = weekOfMeal > currentWeek+1;
+        }
+
+        @if (allowedToEdit)
+        {
+            <a asp-action="Edit" asp-controller="Meal" asp-route-id="@Model.Id">
+                <span class="c-badge o-small o-highlight">Edit</span>
+            </a>
+        }
 
         <a asp-action="Detail" asp-controller="Meal" asp-route-id="@Model.Id">
             <div class="r-image" style="display: none;">
@@ -17,14 +27,14 @@
             </div>
         </a>
 
-        
+
         <div class="r-footer">
             <ul class="tag-list">
                 @if (ViewData["Hide"] == null)
                 {
                     <li><span class="c-tag">@Model.Dishes.Count / 3 Dishes</span></li>
                 }
-                </ul>
+            </ul>
         </div>
     </div>
 </div>

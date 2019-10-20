@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using Domain;
-using Domain.Services;
 
-namespace Domain.Services
+namespace EasyMeal.Core.Domain.Services
 {
     public interface IMealServiceRepository
     {

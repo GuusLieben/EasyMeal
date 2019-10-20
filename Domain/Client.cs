@@ -1,20 +1,37 @@
-﻿using DomainModels;
+﻿using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
-namespace Domain
+namespace EasyMeal.Core.Domain
 {
     public class Client : IActor
     {
+        [ActivatorUtilitiesConstructor]
         public Client()
         {
         }
 
-        public Client(string city, string street, int houseNumber, string addition, DateTime birthDate, ICollection<string> dietRestrictions, ICollection<ClientOrder> orderHistory)
+        public Client Insert(
+            string firstname, 
+            string lastname, 
+            string email, 
+            string phonenumber,
+            string city, 
+            string street, 
+            int houseNumber, 
+            string addition, 
+            DateTime birthDate, 
+            ICollection<string> dietRestrictions, 
+            ICollection<ClientOrder> orderHistory
+            )
         {
+            Firstname = firstname;
+            Lastname = lastname;
+            Email = email;
+            UserName = email;
+            Phonenumber = phonenumber;
             City = city;
             Street = street;
             HouseNumber = houseNumber;
@@ -22,6 +39,7 @@ namespace Domain
             BirthDate = birthDate;
             DietRestrictions = dietRestrictions;
             OrderHistory = orderHistory;
+            return this;
         }
 
 
@@ -58,7 +76,6 @@ namespace Domain
         public ICollection<string> DietRestrictions { get; set; }
 
         [Column("Orders")]
-        
         public ICollection<ClientOrder> OrderHistory { get; set; }
     }
 }
