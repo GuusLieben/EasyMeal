@@ -46,6 +46,7 @@ namespace EasyMeal.API
                 app.UseHsts();
             }
 
+            app.UseCors();
             app.UseSwagger();
 
             app.UseSwaggerUI(c =>

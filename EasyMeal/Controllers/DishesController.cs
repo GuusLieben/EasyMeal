@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net;
-using System.Web.Http;
+﻿using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc;
 using EasyMeal.Core.Domain;
 using EasyMeal.Core.Domain.Services;
-using Microsoft.AspNetCore.Mvc;
+using System.Web.Http.Cors;
 
 namespace EasyMeal.API.Controllers
 {
