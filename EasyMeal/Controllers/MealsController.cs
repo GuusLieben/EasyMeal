@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using EasyMeal.API.Models;
 using EasyMeal.Core.Domain;
 using EasyMeal.Core.Domain.Services;
 using Microsoft.AspNetCore.Http;
@@ -31,21 +32,21 @@ namespace EasyMeal.API.Controllers
                 {
                     if (week)
                     {
-                        return Ok(_repo.GetAllMealOptionsForWeek(parsedDate.Week(), parsedDate.Year));
+                        return Ok(ConvertListToModel(_repo.GetAllMealOptionsForWeek(parsedDate.Week(), parsedDate.Year)));
                     } else
                     {
-                        return Ok(_repo.GetAllMealOptionsForDay(parsedDate));
+                        return Ok(ConvertListToModel(_repo.GetAllMealOptionsForDay(parsedDate)));
                     }
                     
                 }
             }
-            return Ok(_repo.GetAllMealOptions());
+            return Ok(ConvertListToModel(_repo.GetAllMealOptions()));
         }
 
         [HttpGet("{id}")]
         public ActionResult<string> GetOne(int id)
         {
-            return Ok(_repo.GetMeal(id));
+            return Ok(ConvertToModel(_repo.GetMeal(id)));
         }
 
         [HttpPost]
@@ -64,6 +65,29 @@ namespace EasyMeal.API.Controllers
         public ActionResult Delete(int id)
         {
             return NoContent();
+        }
+
+        private MealModel ConvertToModel(Meal meal)
+        {
+            var model = new MealModel()
+            {
+                DateValid = meal.DateValid,
+                Id = meal.Id
+            };
+
+            var dishIds = new List<int>();
+            _repo.GetAllDishesForMeal(meal).ToList().ForEach(d => dishIds.Add(d.Id));
+
+            model.Dishes = dishIds;
+
+            return model;
+        }
+
+        private List<MealModel> ConvertListToModel(IEnumerable<Meal> meals)
+        {
+            var convertedList = new List<MealModel>();
+            meals.ToList().ForEach(m => convertedList.Add(ConvertToModel(m)));
+            return convertedList;
         }
 
     }
