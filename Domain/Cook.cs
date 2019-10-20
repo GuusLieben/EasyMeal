@@ -18,7 +18,6 @@ namespace EasyMeal.Core.Domain
             UserName = email;
         }
 
-        // For quick seed data
         public Cook(string email)
         {
             Email = email;
