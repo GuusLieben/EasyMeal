@@ -228,6 +228,7 @@ namespace EasyMeal.Web.Orders.Controllers
             var orders = _orderRepo.GetOrdersForClient(clientId);
             var dishesById = new Dictionary<int, Dish>();
             var weeksOrdered = new Dictionary<int, Dictionary<DayOfWeek, IEnumerable<ClientOrder>>>();
+            var ordersByWeek = new Dictionary<int, IEnumerable<ClientOrder>>();
             orders.ToList().ForEach(co =>
             {
                 if (!weeksOrdered.ContainsKey(co.Date.Week()))
@@ -249,6 +250,14 @@ namespace EasyMeal.Web.Orders.Controllers
                 {
                     weeksOrdered.GetValueOrDefault(co.Date.Week()).Add(co.Date.DayOfWeek, new List<ClientOrder>() { co });
                 }
+
+                if (ordersByWeek.ContainsKey(co.Date.Week()))
+                {
+                    ((List<ClientOrder>)ordersByWeek.GetValueOrDefault(co.Date.Week())).Add(co);
+                } else
+                {
+                    ordersByWeek.Add(co.Date.Week(), new List<ClientOrder>() { co });
+                }
             });
 
             if (orders.Count() > 0)
@@ -257,9 +266,25 @@ namespace EasyMeal.Web.Orders.Controllers
                 int ordersThisMonth = _orderRepo.GetOrdersForClientForMonth(clientId, orderDate.Month, orderDate.Year).Count();
                 ViewBag.ordersThisMonth = ordersThisMonth;
             }
+
+            ViewBag.JSONOrders = JsonConvert.SerializeObject(ordersByWeek);
             ViewBag.WeeksOrdered = weeksOrdered;
             ViewBag.OrderedDishes = dishesById;
             return View(orders);
+        }
+
+        [HttpPost, ValidateAntiForgeryToken]
+        public IActionResult Orders(string orders, string week)
+        {
+            var orderList = JsonConvert.DeserializeObject<Dictionary<int, IEnumerable<ClientOrder>>>(orders);
+            IEnumerable<ClientOrder> ordersToCancel;
+            orderList.TryGetValue(int.Parse(week), out ordersToCancel);
+            ordersToCancel.ToList().ForEach(co =>
+            {
+                _orderRepo.CancelOrder(co);
+            });
+
+            return RedirectToAction("Orders");
         }
 
         [HttpPost, ValidateAntiForgeryToken]

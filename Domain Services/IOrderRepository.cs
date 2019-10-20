@@ -11,5 +11,6 @@ namespace EasyMeal.Core.Domain.Services
         Client GetClient(string email);
 
         IEnumerable<ClientOrder> GetOrdersForClientForMonth(string clientId, int month, int year);
+        void CancelOrder(ClientOrder co);
     }
 }

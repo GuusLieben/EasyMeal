@@ -8,6 +8,7 @@ namespace Tests
         [Fact]
         public void Test1()
         {
+            // Silence is golden..
         }
     }
 }

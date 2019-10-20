@@ -33,12 +33,6 @@ namespace EasyMeal.Infrastructure.Orders
             return context.Orders.Where(co => co.ClientId.Equals(clientId)).ToList();
         }
 
-        public void CancelOrder(int id)
-        {
-            ClientOrder co = context.Orders.Where(o => o.Id == id).FirstOrDefault();
-            CancelOrder(co);
-        }
-
         public void CancelOrder(ClientOrder co)
         {
             context.Remove(co);

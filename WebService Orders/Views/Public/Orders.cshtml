@@ -13,29 +13,34 @@
 <h3>All receipts for @User.Identity.Name</h3>
 
 <div class="scrolling-wrapper">
-        <div class="container-fluid">
-            <div class="row">
-                @foreach (var keyVal in ViewBag.WeeksOrdered)
-                {
+    <div class="container-fluid">
+        <div class="row">
+            @foreach (var keyVal in ViewBag.WeeksOrdered)
+            {
 
-                        <div class="col-4">
-                            <h3>
-                                Ordered for week @keyVal.Key
-                            </h3>
+                <div class="col-4">
+                    <h3>
+                        Ordered for week @keyVal.Key
+                    </h3>
 
-                            @if (EasyMeal.Core.Domain.Extensions.Week(DateTime.Today)+1 == keyVal.Key)
-                            {
-                                <div style="width: 100%; margin-top: -40px" class="text-right">
-                                    <i><a class="btn btn-danger">Cancel order</a></i>
-                                </div>
-                            }
+                    @if (EasyMeal.Core.Domain.Extensions.Week(DateTime.Today) + 1 == keyVal.Key)
+                    {
+                <div style="width: 100%; margin-top: -40px" class="text-right">
+                    @using (Html.BeginForm())
+                    {
+                        <input type="text" name="orders" value="@ViewBag.JSONOrders" style="display: none;" />
+                        <input type="text" name="week" value="@keyVal.Key.ToString()" style="display: none;" />
+                        <input type="submit" value="Cancel order" class="btn btn-danger" />
+                    }
+                </div>
+                    }
 
 
-                            <partial name="../Shared/ModelCards/OrderCard" model="keyVal.Value" />
-                        </div>
+                    <partial name="../Shared/ModelCards/OrderCard" model="keyVal.Value" />
+                </div>
 
-                        i++;
-                }
-            </div>
+                i++;
+            }
         </div>
+    </div>
 </div>

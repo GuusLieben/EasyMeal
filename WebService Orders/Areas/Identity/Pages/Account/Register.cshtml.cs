@@ -45,7 +45,7 @@ namespace EasyMeal.Web.Orders.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPostAsync(Client model)
         {
-            _logger.LogDebug("Reached REG : " + model.Firstname);
+            _logger.LogDebug("Reached registration : " + model.Firstname);
 
             // If we got this far, something failed, redisplay form
             return Page();
