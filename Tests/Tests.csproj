@@ -17,6 +17,8 @@
     <ProjectReference Include="..\Domain\Domain Models.csproj" />
     <ProjectReference Include="..\EasyMeal\MealAPI.csproj" />
     <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
+    <ProjectReference Include="..\WebService Meals\WebService Meals.csproj" />
+    <ProjectReference Include="..\WebService Orders\WebService Orders.csproj" />
   </ItemGroup>
 
 </Project>

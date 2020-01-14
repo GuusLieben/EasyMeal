@@ -25,11 +25,15 @@ namespace EasyMeal.Web.Meals.Controllers
             var mealNoSugar = true;
             var mealNoGluten = true;
 
-            var errorMessage = TempData["Error"];
-            if (errorMessage != null)
+            if (TempData != null)
             {
-                ViewBag.Message = errorMessage;
+                var errorMessage = TempData["Error"];
+                if (errorMessage != null)
+                {
+                    ViewBag.Message = errorMessage;
+                }
             }
+
             var meals = _repo.GetAllMealOptions();
             var associatedDishes = new List<Tuple<int, IEnumerable<Dish>>>();
             

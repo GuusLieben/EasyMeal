@@ -96,6 +96,39 @@ namespace EasyMeal.Core.Domain
             var result = firstThursday.AddDays(weekNum * 7);
             return result.AddDays(-3);
         }
+
+        public static bool OrderDishesRules(int amountOfDishes, bool weekMatched)
+        {
+            return amountOfDishes >= 4 && weekMatched;
+        }
+
+        public static double CalculateTotalDiscount(double price, double shipment, double dishDiscount, double birthdayDiscount)
+        {
+            return price + shipment - dishDiscount - birthdayDiscount;
+        }
+
+        public static double TotalPrice(IEnumerable<ClientOrder> orders, Dictionary<int, Dish> dishes)
+        {
+            var price = 0.00;
+            foreach (var clientOrder in orders)
+            {
+                dishes.TryGetValue(clientOrder.DishId, out var dish);
+                switch (clientOrder.Size)
+                {
+                    case EasyMeal.Core.Domain.DishSize.Large:
+                        price += 1.2 * dish.Price;
+                        break;
+                    case EasyMeal.Core.Domain.DishSize.Small:
+                        price += 0.8 * dish.Price;
+                        break;
+                    default:
+                        price += dish.Price;
+                        break;
+                }
+            }
+
+            return price;
+        }
     }
 
 }

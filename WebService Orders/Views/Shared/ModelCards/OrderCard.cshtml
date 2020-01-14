@@ -1,4 +1,5 @@
-﻿@model Dictionary<DayOfWeek, IEnumerable<EasyMeal.Core.Domain.ClientOrder>>
+﻿@using EasyMeal.Core.Domain
+@model Dictionary<DayOfWeek, IEnumerable<EasyMeal.Core.Domain.ClientOrder>>
 
 @{
     double price = 0;
@@ -153,11 +154,11 @@
                     <div class="col-3 text-right"><h4>@String.Format("{0:0.00}", 0.1 * (price - discount - birthdayDiscount))</h4></div>
                 </div>
                 <div class="row"></div>
-                price -= (0.1 * (price + shipment - discount - birthdayDiscount));
+                price -= (0.1 * (Extensions.CalculateTotalDiscount(price, shipment, discount, birthdayDiscount)));
 
             }
                 @{
-                    price = price + shipment - discount - birthdayDiscount;
+                    price = Extensions.CalculateTotalDiscount(price, shipment, discount, birthdayDiscount);
                     if (price < 5)
                     {
                         price = 5.00;
@@ -188,7 +189,7 @@
             <input type="text" name="exOrders" value="@ViewBag.OrderIds" style="display: none;" />
             <input type="text" name="checkout" value="true" style="display: none;" />
 
-            @if (amountOfOrders >= 4 && ViewBag.Match)
+            @if (Extensions.OrderDishesRules(amountOfOrders, ViewBag.Match))
             {
                 <input type="submit" style="margin: 20px 0px 10px 12px;" class="btn btn-info" value="Checkout" />
             }
